@@ -1,16 +1,16 @@
 class Produit {
-    id
     nom
     urlImage
     categorie
     description
     prix
 
-    constructor(nom, urlImage, description, statut) {
-        this.nom = nom
-        this.urlImage = urlImage
-        this.description = description
-        this.prix = 0
+    constructor(nom, urlImage, description, prix, categorie) {
+        this.nom = nom;
+        this.urlImage = urlImage;
+        this.description = description;
+        this.prix = prix;
+        this.categorie = categorie;
     }
 
 }

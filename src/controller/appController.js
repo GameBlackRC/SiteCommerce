@@ -1,7 +1,11 @@
+const Compte = require("../model/compte");
 
 class AppController {
     static home(req, res) {
-        res.render("home", {title: "Site E-Commerce - Accueil"});
+        Compte.getById(2).then(compte => {
+            compte.remove();
+            res.render("home", {title: "Site E-Commerce - Accueil", compte: compte, prix: compte.prixPanier});
+        })
     };
     static listeProduits(req, res) {
         res.render("listeProduits");
