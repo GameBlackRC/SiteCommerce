@@ -1,6 +1,5 @@
 class Commande {
-    id
-    idClient
+    client
     listProduit
     montant
     statut
