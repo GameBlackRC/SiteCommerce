@@ -3,6 +3,16 @@
     <%- include('./template/head') -%>
     <body>
         <%- include('./template/header') -%>
+    <main>
+        <h1>Compte Client</h1>
+        <h2>Informations Personnelles</h2>
+        <section>
+            <p>Login · <% compte.login %></p>
+            <p>Adresse Mail <% compte.adresseMail %></p>
+            <p>Changer Mot de Passe</p>
+        </section>
+    </main>
         <%- include('./template/footer') -%>
     </body>
 </html>
+    

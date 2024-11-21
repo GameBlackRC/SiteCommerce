@@ -17,6 +17,13 @@ class Compte {
         this.adresseMail = adresseMail;
     }
 
+    setLogin(login) {
+        this.login = login;
+    }
+
+    setAdresseMail(adresseMail) {
+        this.adresseMail = adresseMail;
+    }
     get login() {
         return this.login;
     }
