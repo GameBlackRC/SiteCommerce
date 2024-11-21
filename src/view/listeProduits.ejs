@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Site E-Commerce - Accueil Produits</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-</head>
-<body>
-    
-</body>
-</html>
+    <main>
+        <h1>Tous les Produits</h1>
+        <section>
+            <% for(let i=0; i<produits.length; i++) { %>
+                
+                <a href="/produit/<% produits[i].id %>">
+                    <article>
+                        <img src="<% produits[i].urlImage %>"/>
+                        <p> <% produits[i].nom %></p>
+                    </article>
+                </a>
+            <% } %>
+        </section>
+    </main>

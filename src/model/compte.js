@@ -1,5 +1,4 @@
 class Compte {
-    id
     login
     adresseMail
     password
@@ -9,6 +8,10 @@ class Compte {
         this.login = login
         this.password = password
         this.adresseMail = adresseMail
+    }
+
+    connexion(login, password) {
+
     }
 
 
