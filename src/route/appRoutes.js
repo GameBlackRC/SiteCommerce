@@ -10,5 +10,6 @@ router.get("/login", AppController.login);
 router.get("/commande", AppController.commande);
 router.get("/compte/:id", AppController.compteClient);
 router.get("/panier/:id", AppController.panier);
+// router.post("/modification", CompteController.modification);
 
 module.exports = router;

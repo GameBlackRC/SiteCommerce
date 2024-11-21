@@ -5,11 +5,30 @@
         <%- include('./template/header') -%>
     <main>
         <h1>Compte Client</h1>
-        <h2>Informations Personnelles</h2>
         <section>
-            <p>Login · <% compte.login %></p>
-            <p>Adresse Mail <% compte.adresseMail %></p>
-            <p>Changer Mot de Passe</p>
+            <h2>Informations Personnelles</h2>
+        
+            <article>
+                <div>
+                    <p><% compte.login %></p>
+                    <button>Modifier</button>
+                </div>
+                <div>
+                    <p><% compte.adresseMail %></p>
+                    <button>Modifier</button>
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <h2>Modifier mes Informations</h2>
+
+            <form id="form-modif" action="/modification" method="post">
+                <input type="text" value="<% compte.login %>" />
+                <input type="email" value="<% compte.adresseMail %>"/>
+                <input type="password" />
+                <input type="submit" value="Modifier"/>
+            </form>
         </section>
     </main>
         <%- include('./template/footer') -%>
