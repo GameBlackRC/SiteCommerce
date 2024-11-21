@@ -7,5 +7,8 @@ const router = express.Router();
 router.get("/", AppController.home);
 router.get("/listeProduits", AppController.listeProduits);
 router.get("/login", AppController.login);
+router.get("/commande", AppController.commande);
+router.get("/compte/:id", AppController.compteClient);
+router.get("/panier/:id", AppController.panier);
 
 module.exports = router;

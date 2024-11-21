@@ -10,10 +10,13 @@ class Compte {
         this.adresseMail = adresseMail
     }
 
-    connexion(login, password) {
-
+    setLogin(login) {
+        this.login = login;
     }
 
+    setAdresseMail(adresseMail) {
+        this.adresseMail = adresseMail;
+    }
 
 }
 
