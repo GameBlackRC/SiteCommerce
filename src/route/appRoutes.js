@@ -4,5 +4,7 @@ const AppController = require('../controller/appController.js');
 const router = express.Router();
 
 router.get("/", AppController.home);
+router.get("/listeProduits", AppController.listeProduits);
+router.get("/login", AppController.login);
 
 module.exports = router;
