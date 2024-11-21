@@ -1,4 +1,9 @@
-    <main>
+<!DOCTYPE html>
+<html>
+    <%- include('./template/head') -%>
+    <body>
+        <%- include('./template/header') -%>
+        <main>
         <h1>Tous les Produits</h1>
         <section>
             <% for(let i=0; i<produits.length; i++) { %>
@@ -12,3 +17,7 @@
             <% } %>
         </section>
     </main>
+        <%- include('./template/footer') -%>
+    </body>
+</html>
+    
