@@ -1,9 +1,9 @@
 const connection = require("./dbConnect");
 const express = require('express');
-const AppController = require('./src/controller/appController');
 const app = express();
 const port = 3000;
 const appRouter = require('./src/route/appRoutes');
+const apiRouter = require('./src/route/apiRoutes');
 app.set('views', './src/view');
 app.set('view engine', 'ejs');
 
@@ -13,6 +13,7 @@ app.use(express.urlencoded({
 }));
 
 app.use("/", appRouter);
+app.use("/api", apiRouter);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

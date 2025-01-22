@@ -1,6 +1,6 @@
-const connection = require('./../../dbConnect');
+const connection = require('../../dbConnect');
 
-class CompteService {
+class CommandeService {
     static tableName = "Compte";
     #con
     static tableStruct = ['login', 'adresseMail', 'password'];
@@ -49,7 +49,7 @@ class CompteService {
         return results
 
     }
-    static async getPanier(id) {
+    static async getPanierByCompte(id) {
         const [results, fields] = await connection.promise().query(
             "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.idCompte=? AND c.statut = 'panier'",
             [id]
@@ -68,6 +68,25 @@ class CompteService {
         return panier;
     }
 
+    static async getCommande(id) {
+        const [results, fields] = await connection.promise().query(
+            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.id=?",
+            [id]
+        );
+        let panier = [];
+        results.forEach((result) => {
+            panier.push({
+                nom: result.nom,
+                urlImage: result.urlImage,
+                description: result.description,
+                prix: result.prix,
+                categorie: result.categorie,
+                nombre: result.nombre
+            });
+        })
+        return panier;
+    }
+
 }
 
-module.exports = CompteService;
+module.exports = CommandeService;

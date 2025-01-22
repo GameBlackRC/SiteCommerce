@@ -1,8 +1,10 @@
+const Commande = require("../model/commande");
 const Compte = require("../model/compte");
 
-class AppController {
+class ApiController {
     static home(req, res) {
-        Compte.getById(1).then(compte => {
+        Compte.getById(2).then(compte => {
+            compte.remove();
             res.render("home", {title: "Site E-Commerce - Accueil", compte: compte, prix: compte.prixPanier});
         })
     };
@@ -14,11 +16,17 @@ class AppController {
     };
 
     static commande(req, res) {
-        res.render("commande");
+        const id = req.params.id
+        Commande.getById(id).then(commande => {
+            res.status(200).json(commande)
+        })
     }
 
     static compteClient(req, res) {
-        res.render("compteClient");
+        const id = req.params.id
+        Compte.getById(id).then(compte => {
+            res.status(200).json(compte)
+        })
     }
 
     static panier(req, res) {
@@ -26,4 +34,4 @@ class AppController {
     }
 };
 
-module.exports = AppController;
+module.exports = ApiController;

@@ -1,157 +1,34 @@
-const CompteService = require('../service/compteService');
-const connection = require('./../../dbConnect');
-const Produit = require('./produit');
-const MD5 = require('crypto-js/md5');
+const CommandeService = require("../service/commandeService");
+const Produit = require("./produit");
 
-class Compte {
-    id;
-    login;
-    adresseMail;
-    password;
-    panier = [];
+class Commande {
+    listProduit = []
+    statut
 
-    constructor(id, login, password, adresseMail) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.adresseMail = adresseMail;
+    constructor(statut) {
+        statut = statut;
     }
 
-    get login() {
-        return this.login;
-    }
-
-    get adresseMail() {
-        return this.adresseMail;
-    }
-
-    get password() {
-        return this.password;
-    }
-
-    get panier() {
-        return this.panier;
-    }
-
-    async remove() {
-        await CompteService.delete(this.id);
-        delete this;
-    }
-
-    static async add(login, password, adresseMail) {
-        const result = await CompteService.add({
-            login: login,
-            password: MD5(password).toString(),
-            adresseMail: adresseMail
-        })
-        const compte = new Compte(result.insertId, login, MD5(password).toString(), adresseMail);
-        return compte;
-    }
-
-    static async removeById(id) {
-        const data = await CompteService.delete(id);
-    }
-
-    static async getById(id) {
-        const data = await CompteService.getById(id);
-        const compte = new Compte(data.id, data.login, data.password, data.adresseMail);
-        await compte.loadPanier();
-        return compte;
-    }
-
-    async loadPanier() {
-        const data = await CompteService.getPanier(this.id);
+    static async loadPanier(compte) {
+        const data = await CommandeService.getPanierByCompte(compte.id);
+        const commande = new Commande('panier');
         data.forEach((produit) => {
-            this.panier.push(new Produit(produit.nom, produit.urlImage, produit.description, produit.prix, produit.categorie))
+            commande.listProduit.push({
+                data: new Produit(produit.nom, produit.urlImage, produit.description, produit.prix, produit.categorie),
+                nombre: produit.nombre           
+            })
         })
+        return commande;
     }
 
-    get prixPanier() {
+    get prix() {
         let total = 0;
-        this.panier.forEach((produit) => {
-            total += produit.prix;
+        this.listProduit.forEach((produit) => {
+            total += (produit.data.prix)*produit.nombre;
         })
         return total;
     }
 
 }
 
-module.exports = Compteconst CompteService = require('../service/compteService');
-const connection = require('./../../dbConnect');
-const Produit = require('./produit');
-const MD5 = require('crypto-js/md5');
-
-class Compte {
-    id;
-    login;
-    adresseMail;
-    password;
-    panier = [];
-
-    constructor(id, login, password, adresseMail) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.adresseMail = adresseMail;
-    }
-
-    get login() {
-        return this.login;
-    }
-
-    get adresseMail() {
-        return this.adresseMail;
-    }
-
-    get password() {
-        return this.password;
-    }
-
-    get panier() {
-        return this.panier;
-    }
-
-    async remove() {
-        await CompteService.delete(this.id);
-        delete this;
-    }
-
-    static async add(login, password, adresseMail) {
-        const result = await CompteService.add({
-            login: login,
-            password: MD5(password).toString(),
-            adresseMail: adresseMail
-        })
-        const compte = new Compte(result.insertId, login, MD5(password).toString(), adresseMail);
-        return compte;
-    }
-
-    static async removeById(id) {
-        const data = await CompteService.delete(id);
-    }
-
-    static async getById(id) {
-        const data = await CompteService.getById(id);
-        const compte = new Compte(data.id, data.login, data.password, data.adresseMail);
-        await compte.loadPanier();
-        return compte;
-    }
-
-    async loadPanier() {
-        const data = await CompteService.getPanier(this.id);
-        data.forEach((produit) => {
-            this.panier.push(new Produit(produit.nom, produit.urlImage, produit.description, produit.prix, produit.categorie))
-        })
-    }
-
-    get prixPanier() {
-        let total = 0;
-        this.panier.forEach((produit) => {
-            total += produit.prix;
-        })
-        return total;
-    }
-
-}
-
-module.exports = Compte
+module.exports = Commande;
