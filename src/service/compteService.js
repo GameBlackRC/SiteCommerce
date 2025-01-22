@@ -21,7 +21,7 @@ class CompteService {
         return results[0]
 
     }
-    async update(id, data) {
+    static async update(id, data) {
         const tmpListe = this.tableStruct.map(col => `${col}='${data[col]}'`)
 
         const [results, fields] = await connection.query(
@@ -56,12 +56,13 @@ class CompteService {
         );
         let panier = [];
         results.forEach((result) => {
-            for (var i = 0; i < result.nombre; i++) panier.push({
+            panier.push({
                 nom: result.nom,
                 urlImage: result.urlImage,
                 description: result.description,
                 prix: result.prix,
-                categorie: result.categorie
+                categorie: result.categorie,
+                nombre: result.nombre
             });
         })
         return panier;

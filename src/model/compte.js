@@ -1,5 +1,6 @@
 const CompteService = require('../service/compteService');
 const connection = require('./../../dbConnect');
+const Commande = require('./commande');
 const Produit = require('./produit');
 const MD5 = require('crypto-js/md5');
 
@@ -8,7 +9,7 @@ class Compte {
     login;
     adresseMail;
     password;
-    panier = [];
+    commandes = [];
 
     constructor(id, login, password, adresseMail) {
         this.id = id;
@@ -65,8 +66,8 @@ class Compte {
         return this.password;
     }
 
-    get panier() {
-        return this.panier;
+    get commandes() {
+        return this.commandes;
     }
 
     async remove() {
@@ -96,18 +97,15 @@ class Compte {
     }
 
     async loadPanier() {
-        const data = await CompteService.getPanier(this.id);
-        data.forEach((produit) => {
-            this.panier.push(new Produit(produit.nom, produit.urlImage, produit.description, produit.prix, produit.categorie))
-        })
+        const data = await Commande.loadPanier(this);
+        this.commandes.push(data);
     }
 
     get prixPanier() {
-        let total = 0;
-        this.panier.forEach((produit) => {
-            total += produit.prix;
+        this.commandes.forEach((commande) => {
+            if(commande.statut == "panier") return commande.prix;
         })
-        return total;
+        return 0;
     }
 
 }
