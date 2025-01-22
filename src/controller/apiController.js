@@ -12,7 +12,11 @@ class ApiController {
         res.render("listeProduits");
     };
     static login(req, res) {
-        res.render("login");
+        Compte.testLogin(req.params.login, req.params.password).then(compte => {
+            if(compte == null) res.status(200).json({"error": "Nom d'utilisateur ou mot de passe invalide"})
+            const testJSON = compte.json();
+            res.status(200).json(testJSON);
+        })
     };
 
     static commande(req, res) {
@@ -29,8 +33,32 @@ class ApiController {
         })
     }
 
+    static addClient(req, res) {
+        Compte.add(req.body.login, req.body.password, req.body.adresseMail).then(compte => {
+            //compte.creationCompte();
+            res.status(200).json({"sucess": "Ajout de compte réussi"});
+        })
+    }
+
+    static removeClient(req, res) {
+        Compte.removeById(req.params.id).then(compte => {
+            res.status(200).json({"sucess": "Suppression du compte réussi"});
+        })
+    }
+
+    static updateClient(req, res) {
+        Compte.updateById(req.params.id, req.body).then(result => {
+            res.status(200).json(result);
+        })
+    }
+
     static panier(req, res) {
         res.render("panier");
+    }
+
+    static test(req, res) {
+        console.log(req.body);
+        res.status(200).json({"test":"t"});
     }
 };
 

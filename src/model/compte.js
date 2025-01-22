@@ -18,12 +18,24 @@ class Compte {
         this.adresseMail = adresseMail;
     }
 
-    getById(db) {
+    json() {
+        return {
+            "id": this.id,
+            "login": this.login,
+            "adresseMail": this.adresseMail
+        }
+    }
+
+    loadById(db) {
         const sql = 'SELECT * FROM user WHERE id=?'+ id;
     }
 
-    creationCompte(db) {
-
+    creationCompte() {
+        CompteService.add({
+            login: this.login,
+            adresseMail: this.adresseMail,
+            password: this.password
+        })
     }
 
     connexionCompte(db, id) {
@@ -85,14 +97,27 @@ class Compte {
         return compte;
     }
 
+    static async testLogin(login, password) {
+        const data = await CompteService.login(login, password);
+        console.log(data);
+        if(data < 1) return null;
+        else return new Compte(data[0].id, data[0].login, data[0].password, data[0].adresseMail);
+    }
+
     static async removeById(id) {
         const data = await CompteService.delete(id);
+    }
+
+    static async updateById(id, body) {
+        const result = await CompteService.update(id, body);
+        return result;
     }
 
     static async getById(id) {
         const data = await CompteService.getById(id);
         const compte = new Compte(data.id, data.login, data.password, data.adresseMail);
         await compte.loadPanier();
+        console.log(data);
         return compte;
     }
 
@@ -110,4 +135,4 @@ class Compte {
 
 }
 
-module.exports = Compte
+module.exports = Compte;
