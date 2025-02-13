@@ -1,4 +1,5 @@
 const Compte = require("../model/compte");
+const Produit = require('../model/produit');
 
 class AppController {
     static home(req, res) {
@@ -7,7 +8,9 @@ class AppController {
         })
     };
     static listeProduits(req, res) {
-        res.render("listeProduits");
+        Produit.getAll().then(produits => {
+            res.render("listeProduits", {title: "Site E-Commerce - Produits", produits: produits});
+        })
     };
     static login(req, res) {
         res.render("login");

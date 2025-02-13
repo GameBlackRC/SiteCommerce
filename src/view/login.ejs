@@ -5,8 +5,14 @@
         <%- include('./template/header') -%>
         <main>
         <form id="form-connexion" action="/connexion" method="post">
-            <input type="text" name="login" placeholder="login" />
-            <input type="password" placeholder="password"/>
+            <h2>Connexion</h2>
+            <label for="login">Email</label>
+            <input type="text" name="login" id="login" />
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password" />
+            <span>Mot de passe oublié ?</span>
+
+            <a href="#">Créer un compte</a>
             <input type="submit" value = "Se connecter" />
         </form>
     </main>
