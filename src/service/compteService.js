@@ -1,4 +1,5 @@
 const connection = require('./../../dbConnect');
+const MD5 = require('crypto-js/md5');
 
 class CompteService {
     static tableName = "Compte";
@@ -22,12 +23,24 @@ class CompteService {
 
     }
     static async update(id, data) {
-        const tmpListe = this.tableStruct.map(col => `${col}='${data[col]}'`)
-
-        const [results, fields] = await connection.query(
-            'UPDATE `' + this.tableName + '` SET ' + tmpListe.join(", ") + ' WHERE id=?',
-            [id]
-        );
+        let tmpListe = [];
+        let error;
+        const tableStruct = this.tableStruct;
+        Object.keys(data).forEach(key => {
+            if(tableStruct.includes(key)) {
+                if(key == "password") tmpListe.push(`${key}='${MD5(data[key]).toString()}'`);
+                else tmpListe.push(`${key}='${data[key]}'`);
+            } else {
+                error = {"error": "Un champ n'est pas nommé correctement"}
+            }
+        });
+        if(error == undefined) {
+            const [results, fields] = await connection.promise().query(
+                'UPDATE `' + this.tableName + '` SET ' + tmpListe.join(", ") + ' WHERE id=?',
+                [id]
+            );
+            return {"sucess": "Mise à jour du compte réussi"};
+        } else return error;
 
     }
     static async add(data) {
@@ -48,6 +61,13 @@ class CompteService {
         );
         return results
 
+    }
+    static async login(login, password) {
+        const [results, fields] = await connection.promise().query(
+            "SELECT * FROM `" + this.tableName + "` WHERE login=? AND password=?",
+            [login, password]
+        );
+        return results;
     }
     static async getPanier(id) {
         const [results, fields] = await connection.promise().query(

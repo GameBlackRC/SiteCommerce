@@ -1,9 +1,9 @@
 const connection = require('../../dbConnect');
 
 class CommandeService {
-    static tableName = "Compte";
+    static tableName = "Commande";
     #con
-    static tableStruct = ['login', 'adresseMail', 'password'];
+    static tableStruct = ['id', 'idCompte', 'statut'];
     constructor() {
     }
     async getAll() {

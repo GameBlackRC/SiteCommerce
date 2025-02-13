@@ -21,7 +21,10 @@ class AppController {
     }
 
     static compteClient(req, res) {
-        res.render("compteClient");
+        const id = req.params.id;
+        Compte.getById(id).then(compte => {
+            res.render("compteClient", {compte: compte })
+        });
     }
 
     static panier(req, res) {
