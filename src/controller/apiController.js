@@ -1,5 +1,6 @@
 const Commande = require("../model/commande");
 const Compte = require("../model/compte");
+const Produit = require("../model/produit");
 
 class ApiController {
     static home(req, res) {
@@ -9,8 +10,9 @@ class ApiController {
         })
     };
     static listeProduits(req, res) {
-        res.render("listeProduits");
+        res.render("listeProduits", {title : "Site E-Commerce - Produits"});
     };
+
     static login(req, res) {
         Compte.testLogin(req.params.login, req.params.password).then(compte => {
             if(compte == null) res.status(200).json({"error": "Nom d'utilisateur ou mot de passe invalide"})

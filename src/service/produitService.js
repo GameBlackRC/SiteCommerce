@@ -8,8 +8,8 @@ class ProduitService {
 
     }
 
-    async getAll() {
-        const [result, fields] = await this.#con.query(
+    static async getAll() {
+        const [result, fields] = await connection.promise().query(
             'SELECT * FROM `' + this.tableName + '`'
         );
         return result;
@@ -41,3 +41,5 @@ class ProduitService {
     }
 
 }
+
+module.exports = ProduitService;

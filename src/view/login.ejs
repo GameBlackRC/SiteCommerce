@@ -3,9 +3,9 @@
     <%- include('./template/head') -%>
     <body>
         <%- include('./template/header') -%>
-        <main>
+        <main class="flex flex-col justify-center items-center mt-20">
         <form id="form-connexion" action="/connexion" method="post">
-            <h2>Connexion</h2>
+            <h2 class="text-center text-lg">Connexion</h2>
             <label for="login">Email</label>
             <input type="text" name="login" id="login" />
             <label for="password">Mot de passe</label>

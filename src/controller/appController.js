@@ -7,11 +7,20 @@ class AppController {
             res.render("home", {title: "Site E-Commerce - Accueil", compte: compte, prix: compte.prixPanier});
         })
     };
+
     static listeProduits(req, res) {
         Produit.getAll().then(produits => {
-            res.render("listeProduits", {title: "Site E-Commerce - Produits", produits: produits});
+            res.render('listeProduits', {title: "Site E-Commerce - Produits", produits : produits });
         })
     };
+
+    static detailProduit(req, res) {
+        const id = req.params.id;
+        Produit.getById(id).then(produit => {
+            res.render("detailProduit", {title: `Site E-Commerce - Détails Produit ${produit.nom}`, produit: produit});
+        })
+    };
+
     static login(req, res) {
         res.render("login");
     };

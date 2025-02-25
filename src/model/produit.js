@@ -9,13 +9,14 @@ class Produit {
     description
     prix
 
-    constructor(id, nom, urlImage, description, prix, categorie) {
+    constructor(id, nom, urlImage, categorie, description, prix) {
         this.id = id;
         this.nom = nom;
         this.urlImage = urlImage;
+        this.categorie = categorie;
         this.description = description;
         this.prix = prix;
-        this.categorie = categorie;
+
     }
 
     static async getById(id) {
@@ -26,6 +27,7 @@ class Produit {
 
     static async getAll() {
         const data = await ProduitService.getAll();
+        return data.map(item => new Produit(item.id, item.nom, item.urlImage, item.categorie, item.description, item.prix));
     }
 
 }

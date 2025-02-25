@@ -3,18 +3,24 @@
     <%- include('./template/head') -%>
     <body>
         <%- include('./template/header') -%>
-        <main>
+        <main class="main-section">
         <h1>Tous les Produits</h1>
-        <section>
-            <% for(let i=0; i<produits.length; i++) { %>
-                
-                <a href="/produit/<% produits[i].id %>">
-                    <article>
-                        <img src="<% produits[i].urlImage %>"/>
-                        <p> <% produits[i].nom %></p>
-                    </article>
-                </a>
-            <% } %>
+        <section class="row-section" id="section-list-produits">
+            <% produits.forEach(produit => { %>
+                <div>
+                    <a href="/produits/<%= produit.id%>">
+                        <article>
+                            <img src="<%= produit.urlImage%>" alt="<%= produit.nom%>"/>
+                            <div class="article-infos">
+                                <p><%= produit.nom%></p>
+                                <p><%= produit.prix%> €</p>
+                            </div>
+                        </article>
+                    </a>
+                    <button class="button" onclick="panier('<%= produit.id%>')">Ajouter au panier</button>
+                </div>
+
+            <% }); %>
         </section>
     </main>
         <%- include('./template/footer') -%>

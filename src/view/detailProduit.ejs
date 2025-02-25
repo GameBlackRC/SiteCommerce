@@ -3,13 +3,23 @@
     <%- include('./template/head') -%>
     <body>
         <%- include('./template/header') -%>
-        <main>
+        <main class="main-section">
             <h1>Détails Produit</h1>
-            <section>
-                <article>
-                    <img src="<%produit.urlImage%>"
-                    <p> <% produit.nom %> </p>
+            <section class="main-section" id="section-detail-produits">
+                <article class="row-section">
+                    <img src="<%= produit.urlImage%>" alt="<%= produit.nom%>"/>
+                    <aside>
+                        <h2> <%= produit.nom %> </h2>
+                        <h3>Catégorie</h3>
+                        <p><%= produit.categorie%></p>
+                        <h3>Description</h3>
+                        <p><%= produit.description%></p>
+                        <h3>Prix</h3>
+                        <p><%= produit.prix%> €</p>
+                        <button class="button" onclick="panier('<%= produit.id%>')">Ajouter au panier</button>
+                    </aside>
                 </article>
+                <a href="/produits" class="button">Retour à la liste</a>
             </section>
         </main>
         <%- include('./template/footer') %>

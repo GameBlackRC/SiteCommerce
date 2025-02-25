@@ -1,3 +1,5 @@
+@use 'variables';
+
 * {
     margin: 0;
     padding: 0;
@@ -15,8 +17,213 @@ body {
     font-size: 25px;
 }
 
+h2 {
+    font-size: 28px;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+//GENERAL
+.button {
+    display: inline-block;
+    margin: auto;
+
+    padding: 8px 25px;
+    border-radius: 20px;
+
+    background-color: variables.$color-primary;
+
+    transition: 0.5s;
+
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: variables.$color-secondary;
+}
+
+
+.navbar {
+    ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 50px;
+        background-color: variables.$color-secondary;
+
+        li {
+            display: flex;
+
+            a {
+                padding: 15px 40px;
+                transition: 0.5s ease-out;
+            }
+
+            a:hover {
+                background-color: variables.$color-primary;
+            }
+        }
+
+    }
+}
+
+.main-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 50px;
+    text-align: center;
+
+    h1 {
+        font-size: 25px;
+    }
+}
+
+.row-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+footer {
+    margin-top: 100px;
+}
+
+//PAGE LIST PRODUITS
+#section-list-produits {
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+                
+            article {
+                display: flex;
+                flex-direction: column;
+        
+                width: 300px;
+                border-radius: 20px;
+        
+                background-color: variables.$color-primary;
+                box-shadow: 5px 5px 10px variables.$color-shadow;
+        
+                transition: 0.8s;
+        
+                img {
+                    width: 100%;
+                    border-radius: 20px 20px 0 0;
+                    transition: 0.8s;
+                }
+        
+                .article-infos {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: space-around;
+        
+                    padding: 20px 0 30px;
+                }
+            }
+        
+            article:hover {
+                background-color: variables.$color-secondary;
+        
+                img {
+                    opacity: 0.8;
+                }
+            }
+    }
+}
+
+//PAGE DETAIL PRODUITS
+#section-detail-produits {
+    article {
+        display: flex;
+        align-items: flex-start;
+        gap: 100px;
+
+        img {
+            width: 400px;
+            border-radius: 20px;
+        }
+
+        aside {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            margin-top: 30px;
+
+            h2,
+            p {
+                text-transform: capitalize;
+            }
+
+            h2 {
+                margin-bottom: 20px;
+            }
+
+            h3 {
+                margin-top: 10px;
+            }
+
+            button {
+                margin-top: 40px;
+            }
+        }
+    }
+}
+
+//PAGE LOGIN
 #form-connexion {
     display: flex;
     flex-direction: column;
-    background-color: cyan;
+    margin-top: 100px;
+
+    width: 30%;
+    min-width: 250px;
+    padding: 60px 50px 80px;
+    border-radius: 20px;
+
+    background-color: variables.$color-primary;
+
+    label {
+        margin-top: 15px;
+    }
+
+    input {
+        padding: 5px 0 5px 8px;
+        border-radius: 3px;
+        background-color: variables.$color-light;
+    }
+
+    span {
+        margin: 10px 0 15px;
+        
+        font-size: 15px;
+        font-style: italic;
+
+        cursor: pointer;
+    }
+
+    input[type="submit"] {
+        display: inline-block;
+        margin: 30px auto 0;
+
+        padding: 5px 30px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: 0.5s;
+        background-color: variables.$color-third;
+    }
+
+    input[type="submit"]:hover {
+        background-color: variables.$color-secondary;
+    }
 }
