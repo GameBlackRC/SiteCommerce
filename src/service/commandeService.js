@@ -6,30 +6,34 @@ class CommandeService {
     static tableStruct = ['id', 'idCompte', 'statut'];
     constructor() {
     }
-    async getAll() {
-        const [results, fields] = await this.#con.query(
+
+    static async getAll() {
+        const [result, fields] = await connection.promise().query(
             'SELECT * FROM `' + this.tableName + '`'
         );
-        return results
-
+        return result;
     }
+
     static async getById(id) {
         const [results, fields] = await connection.promise().query(
             'SELECT * FROM `' + this.tableName + '` WHERE id=?',
             [id]
         );
         return results[0]
-
     }
+    
     static async update(id, data) {
-        const tmpListe = this.tableStruct.map(col => `${col}='${data[col]}'`)
+        const tmpListe = Object.keys(data)
+        .filter(col => this.tableStruct.includes(col))
+        .map(col => `${col}='${data[col]}'`);
 
-        const [results, fields] = await connection.query(
+        const [results, fields] = await connection.promise().query(
             'UPDATE `' + this.tableName + '` SET ' + tmpListe.join(", ") + ' WHERE id=?',
             [id]
         );
-
+        return results;
     }
+
     static async add(data) {
         console.log(data);
 
@@ -41,14 +45,15 @@ class CommandeService {
         return results;
 
     }
+
     static async delete(id) {
         const [results, fields] = await connection.promise().query(
             'DELETE FROM `' + this.tableName + '` WHERE id=?',
             [id]
         );
-        return results
-
+        return results;
     }
+
     static async getPanierByCompte(id) {
         const [results, fields] = await connection.promise().query(
             "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.idCompte=? AND c.statut = 'panier'",

@@ -54,6 +54,7 @@ class CompteService {
         return results;
 
     }
+
     static async delete(id) {
         const [results, fields] = await connection.promise().query(
             'DELETE FROM `' + this.tableName + '` WHERE id=?',
@@ -62,6 +63,7 @@ class CompteService {
         return results
 
     }
+    
     static async login(login, password) {
         const [results, fields] = await connection.promise().query(
             "SELECT * FROM `" + this.tableName + "` WHERE login=? AND password=?",

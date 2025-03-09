@@ -30,6 +30,16 @@ class Produit {
         return data.map(item => new Produit(item.id, item.nom, item.urlImage, item.categorie, item.description, item.prix));
     }
 
+    static async add(data) {
+        const result = await ProduitService.add(data);
+        const produit = new Produit(data.id, data.nom, data.urlImage, data.categorie, data.description, data.prix);
+        return produit;
+    }
+    static async delete(id) {
+        const result = await ProduitService.delete(id);
+        return result;
+    }
+
 }
 
 module.exports = Produit

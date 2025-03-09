@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <%- include('./template/head') -%>
+    <body>
+        <%- include('./template/header') -%>
+        <main class="main-section">
+            <h1>Gestion Commandes</h1>
+            <h2>Détails Commande</h2>
+            <section class="main-section" id="section-detail-produits">
+                <article class="row-section">
+                        <h2> <%= commande.nom %> </h2>
+                        <h3>Statut</h3>
+                        <p><%= commande.statut%></p>
+                        <p></p>
+                        <form action="/gestion-commandes/<%= commande.id %>" method="POST">
+                            <label for="statut">Choix Statut</label>
+                            <select name="statut" id="statut">
+                                <option value="panier">Panier</option>
+                                <option value="en cours">En cours</option>
+                                <option value="expédié">Expédié</option>
+                                <option value="livré">Livré</option>
+                            </select>
+                            <button class="button" type="submit">Valider</button>
+                        </form>
+                        <form action="/gestion-commandes/<%= commande.id %>?_method=DELETE" method="POST" onsubmit="return confirmDelete(event);">
+                            <button class="button" type="submit">Supprimer</button>
+                        </form>
+                </article>
+                <a href="/gestion-commandes" class="button">Retour</a>
+            </section>
+        </main>
+        <%- include('./template/footer') %>
+    </body>
+</html>

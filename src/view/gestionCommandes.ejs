@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <%- include('./template/head') -%>
+    <body>
+        <%- include('./template/header') -%>
+        <main class="main-section">
+            <% if (success) { %>
+                <div class="alert success">
+                    <p><%= success %></p>
+                </div>
+            <% } %>
+            <% if (error) { %>
+                <div class="alert error">
+                    <p><%= error %></p>
+                </div>
+            <% } %>
+
+        <h1>Toutes les commandes</h1>
+        <section class="row-section" id="section-list-produits">
+            <% commandes.forEach(commande => { %>
+                <div>
+                    <a href="/gestion-commandes/<%= commande.id%>">
+                        <article>
+                            <div class="article-infos">
+                                <h3>Identifiant Commande</h3>
+                                <p><%= commande.id%></p>
+                                <h3>Compte Commande</h3>
+                                <p><%= commande.compte%></p>
+                                <h3>Statut Commande</h3>
+                                <p><%= commande.statut%></p>
+                            </div>
+                        </article>
+                    </a>
+                </div>
+
+            <% }); %>
+        </section>
+    </main>
+        <%- include('./template/footer') -%>
+    </body>
+</html>

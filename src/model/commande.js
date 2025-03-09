@@ -3,13 +3,15 @@ const Compte = require("./compte");
 const Produit = require("./produit");
 
 class Commande {
-    listProduit = [];
-    statut;
+    id;
     compte;
+    statut;
+    listProduit = [];
 
-    constructor(compte, statut) {
-        this.statut = statut;
+    constructor(id, compte, statut) {
+        this.id = id;
         this.compte = compte;
+        this.statut = statut;
     }
 
     static async loadPanier(compte) {
@@ -38,10 +40,24 @@ class Commande {
 
     static async getById(id) {
         const data = await CommandeService.getById(id);
-        console.log(data);
-        const commande = new Commande(1, data.statut);
-        await Commande.loadPanierById(1);
+        const commande = new Commande(data.id, data.compte, data.statut);
+        // await Commande.loadPanierById(1);
         return commande;
+    }
+
+    static async getAll() {
+        const data = await CommandeService.getAll();
+        return data.map(item => new Commande(item.id, item.idCompte, item.statut));
+    }
+
+    static async update(id, data) {
+        const result = await CommandeService.update(id, data);
+        return result;
+    }
+
+    static async delete(id) {
+        const result = await CommandeService.delete(id);
+        return result;
     }
 
     get prix() {

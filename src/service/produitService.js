@@ -3,7 +3,7 @@ const connection = require('../../dbConnect');
 class ProduitService {
     static tableName = "Produit";
     #con
-    static tableStruct = ['nom', 'urlImage', 'categorie', 'description', 'prix'];
+    static tableStruct = ['id', 'nom', 'urlImage', 'categorie', 'description', 'prix'];
     constructor() {
 
     }
@@ -24,10 +24,12 @@ class ProduitService {
     }
 
     static async add(data) {
-        const tmpListe = this.tableStruct.map(col => `${col}='${data[col]}'`)
+        const tmpListe = this.tableStruct.map(col =>
+            data[col] !== undefined ? `'${String(data[col]).replace(/'/g, "''")}'` : 'NULL'
+        );
 
         const [result, fields] = await connection.promise().query(
-            'INSERT INTO `' + this.tableName + '` (' + this.tableStruct.join(', ') + ') VALUES(' + tmpListe.join(", ") + ')'
+            `INSERT INTO ${this.tableName} (${this.tableStruct.join(", ")}) VALUES (${tmpListe.join(", ")})`
         );
         return result;
     }

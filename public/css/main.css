@@ -23,20 +23,6 @@ h3 {
   font-weight: 600;
 }
 
-.button {
-  display: inline-block;
-  margin: auto;
-  padding: 8px 25px;
-  border-radius: 20px;
-  background-color: #C3EEEA;
-  transition: 0.5s;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #84CDC6;
-}
-
 .navbar ul {
   display: flex;
   flex-direction: row;
@@ -51,15 +37,51 @@ h3 {
 }
 .navbar ul li a {
   padding: 15px 40px;
+  color: #ffffff;
   transition: 0.5s ease-out;
 }
 .navbar ul li a:hover {
+  color: #84CDC6;
   background-color: #C3EEEA;
+}
+
+footer {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 110px;
+  padding: 80px 0 70px;
+  background-color: #84CDC6;
+}
+footer p {
+  color: #ffffff;
+}
+
+.button {
+  display: inline-block;
+  margin: auto;
+  padding: 8px 25px;
+  border-radius: 20px;
+  color: #ffffff;
+  background-color: #84CDC6;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: #84CDC6;
+  background-color: #C3EEEA;
+}
+
+img {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .main-section {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 40px;
   margin-top: 50px;
   text-align: center;
@@ -77,8 +99,23 @@ h3 {
   gap: 50px;
 }
 
-footer {
-  margin-top: 100px;
+.alert {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
 #section-list-produits div {
@@ -97,6 +134,7 @@ footer {
 }
 #section-list-produits div article img {
   width: 100%;
+  height: 274px;
   border-radius: 20px 20px 0 0;
   transition: 0.8s;
 }
@@ -143,39 +181,46 @@ footer {
   margin-top: 40px;
 }
 
-#form-connexion {
+.main-form {
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 70px;
   width: 30%;
   min-width: 250px;
   padding: 60px 50px 80px;
   border-radius: 20px;
+  text-align: start;
   background-color: #C3EEEA;
 }
-#form-connexion label {
+.main-form label {
   margin-top: 15px;
 }
-#form-connexion input {
+.main-form textarea, .main-form input {
   padding: 5px 0 5px 8px;
   border-radius: 3px;
   background-color: #ffffff;
 }
-#form-connexion span {
+.main-form span {
   margin: 10px 0 15px;
   font-size: 15px;
   font-style: italic;
   cursor: pointer;
 }
-#form-connexion input[type=submit] {
+.main-form input[type=submit] {
   display: inline-block;
   margin: 30px auto 0;
   padding: 5px 30px;
   border-radius: 20px;
   cursor: pointer;
   transition: 0.5s;
+  color: #ffffff;
+  background-color: #84CDC6;
+}
+.main-form input[type=submit]:hover {
+  color: #84CDC6;
   background-color: #dbfcf8;
 }
-#form-connexion input[type=submit]:hover {
-  background-color: #84CDC6;
+.main-form textarea {
+  height: 200px;
+  resize: none;
 }/*# sourceMappingURL=main.css.map */

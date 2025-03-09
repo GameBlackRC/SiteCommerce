@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <%- include('./template/head') -%>
+    <body>
+        <%- include('./template/header') -%>
+        <main class="main-section">
+            <% if (success) { %>
+                <div class="alert success">
+                    <p><%= success %></p>
+                </div>
+            <% } %>
+            <% if (error) { %>
+                <div class="alert error">
+                    <p><%= error %></p>
+                </div>
+            <% } %>
+        <form class="main-form" action="/gestion-produits" method="post" enctype="multipart/form-data">
+            <h2>Ajouter un produit</h2>
+            <label for="nom">Nom du produit</label>
+            <input type="text" name="nom" id="nom" required />
+
+            <label for="urlImage">Image du produit</label>
+            <input type="file" name="urlImage" id="urlImage" required />
+
+            <label for="categorie">Catégorie du produit</label>
+            <input type="categorie" name="categorie" id="categorie" accept="image/*" required />
+
+            <label for="prix">Prix du produit</label>
+            <input type="number" name="prix" id="prix" min="0" required />
+
+            <label for="description">Description du produit</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <input type="submit" value = "Ajouter" />
+        </form>
+
+        <h1>Tous les produits</h1>
+        <section class="row-section" id="section-list-produits">
+            <% produits.forEach(produit => { %>
+                <div>
+                    <a href="/gestion-produits/<%= produit.id%>">
+                        <article>
+                            <img src="<%= produit.urlImage%>" alt="<%= produit.nom%>"/>
+                            <div class="article-infos">
+                                <p><%= produit.nom%></p>
+                                <p><%= produit.prix%> €</p>
+                            </div>
+                        </article>
+                    </a>
+                </div>
+
+            <% }); %>
+        </section>
+    </main>
+        <%- include('./template/footer') -%>
+    </body>
+</html>

@@ -1,11 +1,12 @@
 const express = require('express');
 const AppController = require('../controller/appController.js');
-const ApiController = require('../controller/apiController.js')
+const ApiController = require('../controller/apiController.js');
+const produitController = require('../controller/produitController.js');
 
 const router = express.Router();
 
 router.get("/", AppController.home);
-router.get("/produits", AppController.listeProduits);
+router.get("/produits", produitController.listeProduits);
 router.get("/login/:login/:password", ApiController.login);
 router.get("/commande/:id", ApiController.commande);
 router.get("/compte/:id", ApiController.compteClient);

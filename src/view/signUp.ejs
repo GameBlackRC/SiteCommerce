@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <%- include('./template/head') -%>
+    <body>
+        <%- include('./template/header') -%>
+        <main class="main-section">
+        <form class="main-form" action="/inscription" method="post">
+            <h2 class="text-center text-lg">Inscription</h2>
+            <label for="login">Nom d'utilisateur</label>
+            <input type="text" name="login" id="login" />
+            <label for="login">Email</label>
+            <input type="text" name="email" id="email" />
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password" />
+
+            <input type="submit" value = "S'inscrire" />
+        </form>
+    </main>
+        <%- include('./template/footer') -%>
+    </body>
+</html>

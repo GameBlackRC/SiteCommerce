@@ -9,6 +9,7 @@ class ApiController {
             res.render("home", {title: "Site E-Commerce - Accueil", compte: compte, prix: compte.prixPanier});
         })
     };
+    
     static listeProduits(req, res) {
         res.render("listeProduits", {title : "Site E-Commerce - Produits"});
     };
