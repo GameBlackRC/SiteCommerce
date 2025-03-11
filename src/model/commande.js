@@ -4,13 +4,13 @@ const Produit = require("./produit");
 
 class Commande {
     id;
-    compte;
+    idCompte;
     statut;
     listProduit = [];
 
     constructor(id, compte, statut) {
         this.id = id;
-        this.compte = compte;
+        this.idCompte = compte;
         this.statut = statut;
     }
 
@@ -40,7 +40,7 @@ class Commande {
 
     static async getById(id) {
         const data = await CommandeService.getById(id);
-        const commande = new Commande(data.id, data.compte, data.statut);
+        const commande = new Commande(data.id, data.idCompte, data.statut);
         // await Commande.loadPanierById(1);
         return commande;
     }
@@ -48,6 +48,25 @@ class Commande {
     static async getAll() {
         const data = await CommandeService.getAll();
         return data.map(item => new Commande(item.id, item.idCompte, item.statut));
+    }
+
+    // static async getCommande(id) {
+    //     const data = await CommandeService.getById(id);
+    //     const commande = new Commande(data.id, data.compte, data.statut);
+    //     console.log(commande);
+    //     return commande;
+    // }
+
+    static async getCommande(id) {
+        const data = await CommandeService.getCommande(id);
+        return data.map(item => ({
+            nom: item.nom,
+            urlImage: item.urlImage,
+            description: item.description,
+            prix: item.prix,
+            categorie: item.categorie,
+            nombre: item.nombre
+        }));
     }
 
     static async update(id, data) {

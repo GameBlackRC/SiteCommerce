@@ -6,13 +6,22 @@
         <main class="main-section">
             <h1>Gestion Commandes</h1>
             <h2>Détails Commande</h2>
-            <section class="main-section" id="section-detail-produits">
+            <section class="main-section" id="section-detail-commandes">
                 <article class="row-section">
                         <h2> <%= commande.nom %> </h2>
                         <h3>Statut</h3>
                         <p><%= commande.statut%></p>
-                        <p></p>
-                        <form action="/gestion-commandes/<%= commande.id %>" method="POST">
+                        <h3>Produits Commande</h3>
+                        <ul>
+                            <% commande.listProduit.forEach(prod => { %>
+                            <li>
+                                · Nom | <%= prod.produit.nom %>
+                                 Quantité | <%= prod.nombre%>
+                                 Prix Unitaire | <%= prod.produit.prix %> €
+                            </li>
+                            <% }); %>
+                        </ul>
+                        <form id="form-update" action="/gestion-commandes/<%= commande.id %>" method="POST">
                             <label for="statut">Choix Statut</label>
                             <select name="statut" id="statut">
                                 <option value="panier">Panier</option>
@@ -22,8 +31,8 @@
                             </select>
                             <button class="button" type="submit">Valider</button>
                         </form>
-                        <form action="/gestion-commandes/<%= commande.id %>?_method=DELETE" method="POST" onsubmit="return confirmDelete(event);">
-                            <button class="button" type="submit">Supprimer</button>
+                        <form id="form-delete" action="/gestion-commandes/<%= commande.id %>?_method=DELETE" method="POST" onsubmit="return confirmDelete(event);">
+                            <button id="delete-button" class="button" type="submit">Supprimer</button>
                         </form>
                 </article>
                 <a href="/gestion-commandes" class="button">Retour</a>

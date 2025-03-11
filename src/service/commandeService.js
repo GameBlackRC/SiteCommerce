@@ -15,11 +15,11 @@ class CommandeService {
     }
 
     static async getById(id) {
-        const [results, fields] = await connection.promise().query(
+        const [result, fields] = await connection.promise().query(
             'SELECT * FROM `' + this.tableName + '` WHERE id=?',
             [id]
         );
-        return results[0]
+        return result[0];
     }
     
     static async update(id, data) {
@@ -35,8 +35,6 @@ class CommandeService {
     }
 
     static async add(data) {
-        console.log(data);
-
         const tmpListe = this.tableStruct.map(col => `'${data[col]}'`)
 
         const [results, fields] = await connection.promise().query(
@@ -73,25 +71,44 @@ class CommandeService {
         return panier;
     }
 
+    // static async getCommande(id) {
+    //     const [results, fields] = await connection.promise().query(
+    //         "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.id=?",
+    //         [id]
+    //     );
+    //     let panier = [];
+    //     results.forEach((result) => {
+    //         panier.push({
+    //             nom: result.nom,
+    //             urlImage: result.urlImage,
+    //             description: result.description,
+    //             prix: result.prix,
+    //             categorie: result.categorie,
+    //             nombre: result.nombre
+    //         });
+    //     })
+    //     return panier;
+    // }
+
     static async getCommande(id) {
-        const [results, fields] = await connection.promise().query(
-            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.id=?",
+        const [results] = await connection.promise().query(
+            `SELECT pr.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, pc.nombre 
+             FROM ProduitsCommande pc 
+             JOIN Produit pr ON pr.id = pc.idProduit 
+             WHERE pc.idCommande = ?`, 
             [id]
         );
-        let panier = [];
-        results.forEach((result) => {
-            panier.push({
-                nom: result.nom,
-                urlImage: result.urlImage,
-                description: result.description,
-                prix: result.prix,
-                categorie: result.categorie,
-                nombre: result.nombre
-            });
-        })
-        return panier;
+    
+        return results.map(result => ({
+            id: result.id,
+            nom: result.nom,
+            urlImage: result.urlImage,
+            description: result.description,
+            prix: result.prix,
+            categorie: result.categorie,
+            nombre: result.nombre
+        }));
     }
-
 }
 
 module.exports = CommandeService;

@@ -56,6 +56,22 @@ class produitController {
             res.redirect("/gestion-produits");
         })
     }
+
+    static updateProduit(req, res) {
+        const id = req.body.id;
+        const data = {
+            id: req.body.id,
+            nom: req.body.nom,
+            urlImage: req.file ? `/assets/${req.file.filename}` : null,
+            categorie: req.body.categorie,
+            description: req.body.description,
+            prix: req.body.prix
+        };
+
+        Produit.update(id, data).then(() => {
+            res.redirect(`/gestion-produits`);
+        })
+    }
 }
 
 module.exports = produitController;

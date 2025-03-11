@@ -42,6 +42,16 @@ class ProduitService {
         return result;
     }
 
+    static async update(id, data) {
+        const tmpListe = Object.keys(data)
+        .filter(col => this.tableStruct.includes(col))
+        .map(col => `${col}='${data[col]}'`);
+    
+        const [results, fields] = await connection.promise().query(
+            'UPDATE `' + this.tableName + '` SET ' + tmpListe.join(", ") + ' WHERE id=?',
+            [id]
+        );
+    }
 }
 
 module.exports = ProduitService;

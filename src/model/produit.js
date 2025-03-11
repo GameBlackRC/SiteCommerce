@@ -20,6 +20,7 @@ class Produit {
     }
 
     static async getById(id) {
+        console.log('DATA ID ' + id)
         const data = await ProduitService.getById(id);
         const produit = new Produit(data.id, data.nom, data.urlImage, data.categorie, data.description, data.prix);
         return produit;
@@ -40,6 +41,10 @@ class Produit {
         return result;
     }
 
+    static async update(id, data) {
+        const result = await ProduitService.update(id, data);
+        return result;
+    }
 }
 
 module.exports = Produit

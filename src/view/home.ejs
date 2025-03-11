@@ -3,8 +3,20 @@
     <%- include('./template/head') -%>
     <body>
         <%- include('./template/header') -%>
-        <main class="main-section">
-            <h1>Site E-Commerce</h1>
+        <main id="main-home" class="main-section">
+            <article>
+                <h1>Site E-Commerce</h1>
+    
+                <h2>Bienvenue sur notre MarketPlace !</h2>
+            </article>
+            
+            <aside>
+                <img src="../assets/marketplace.png" alt="marketplace" />
+                <section>
+                    <a href="/panier" class="button">Voir son panier</a>
+                    <a href="/produits" class="button">Voir les produits</a>
+                </section>
+            </aside>
         </main>
         <%- include('./template/footer') -%>
     </body>

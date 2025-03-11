@@ -4,11 +4,11 @@ const MD5 = require('crypto-js/md5');
 class CompteService {
     static tableName = "Compte";
     #con
-    static tableStruct = ['login', 'adresseMail', 'password'];
+    static tableStruct = ['id', 'login', 'adresseMail', 'password'];
     constructor() {
     }
     async getAll() {
-        const [results, fields] = await this.#con.query(
+        const [results, fields] = await connection.promise().query(
             'SELECT * FROM `' + this.tableName + '`'
         );
         return results
@@ -19,9 +19,9 @@ class CompteService {
             'SELECT * FROM `' + this.tableName + '` WHERE id=?',
             [id]
         );
-        return results[0]
-
+        return results[0];
     }
+
     static async update(id, data) {
         let tmpListe = [];
         let error;
@@ -44,8 +44,6 @@ class CompteService {
 
     }
     static async add(data) {
-        console.log(data);
-
         const tmpListe = this.tableStruct.map(col => `'${data[col]}'`)
 
         const [results, fields] = await connection.promise().query(

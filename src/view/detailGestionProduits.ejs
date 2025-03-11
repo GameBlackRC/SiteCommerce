@@ -22,6 +22,30 @@
                         </form>
                     </aside>
                 </article>
+                
+                <article id="update-produit" class="row-section">
+                    <form class="main-form" action="/gestion-produits-update" method="post" enctype="multipart/form-data">
+                        <h2>Modifier le produit</h2>
+                        <input type="hidden" name="id" id="id" value="<%= produit.id%>"/>
+
+                        <label for="nom">Nom du produit</label>
+                        <input type="text" name="nom" id="nom" value="<%= produit.nom %>" required />
+            
+                        <label for="urlImage">Image du produit</label>
+                        <input type="file" name="urlImage" id="urlImage" accept="image/*" required />
+            
+                        <label for="categorie">Catégorie du produit</label>
+                        <input type="categorie" name="categorie" id="categorie" value="<%= produit.categorie %>" required />
+            
+                        <label for="prix">Prix du produit</label>
+                        <input type="number" name="prix" id="prix" min="0" value="<%= produit.prix %>" required />
+            
+                        <label for="description">Description du produit</label>
+                        <textarea id="description" name="description" required><%= produit.description %></textarea>
+            
+                        <input type="submit" value = "Modifier" />
+                    </form>
+                </article>
                 <a href="/gestion-produits" class="button">Retour</a>
             </section>
         </main>

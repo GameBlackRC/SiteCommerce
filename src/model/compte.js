@@ -99,7 +99,7 @@ class Compte {
 
     static async testLogin(login, password) {
         const data = await CompteService.login(login, password);
-        console.log(data);
+
         if(data < 1) return null;
         else return new Compte(data[0].id, data[0].login, data[0].password, data[0].adresseMail);
     }
@@ -116,8 +116,7 @@ class Compte {
     static async getById(id) {
         const data = await CompteService.getById(id);
         const compte = new Compte(data.id, data.login, data.password, data.adresseMail);
-        await compte.loadPanier();
-        console.log(data);
+        // await compte.loadPanier();
         return compte;
     }
 

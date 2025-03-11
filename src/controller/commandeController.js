@@ -1,4 +1,6 @@
 const Commande = require('../model/commande');
+const Compte = require('../model/compte');
+const Produit = require('../model/produit');
 
 class commandeController {
     static commande(req, res) {
@@ -14,11 +16,26 @@ class commandeController {
         });
     }
 
-    static detailGestionCommandes(req, res) {
+    static async detailGestionCommandes(req, res) {
         const id = req.params.id;
-        Commande.getById(id).then(commande => {
-            res.render("detailGestionCommandes", { title: `Site E-Commerce - Gestion Commande ${commande.id}`, commande: commande});
-        })
+
+        const commande = await Commande.getById(id);
+        const compte = await Compte.getById(commande.idCompte);
+        const produitsCommande = await Commande.getCommande(id);
+
+        commande.listProduit = produitsCommande.map(data => ({
+            produit: new Produit(data.id, data.nom, data.urlImage, data.categorie, data.description, data.prix),
+            nombre: data.nombre
+        }));
+
+        res.render("detailGestionCommandes", {
+            title: `Site E-Commerce - Gestion Commande ${commande.id}`,
+            commande: commande,
+            compte: compte
+        });
+        // Commande.getCommande(id).then(commande => {
+        //     res.render("detailGestionCommandes", { title: `Site E-Commerce - Gestion Commande ${commande.id}`, commande: commande});
+        // })
     }
 
     static deleteCommande(req, res) {

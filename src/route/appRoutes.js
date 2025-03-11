@@ -33,6 +33,7 @@ router.get("/sign-up", AppController.signUp);
 router.get("/gestion-produits", produitController.gestionProduits);
 router.get("/gestion-produits/:id", produitController.detailGestionProduits);
 router.post("/gestion-produits", upload.single('urlImage'), produitController.addProduit);
+router.post("/gestion-produits-update", upload.single('urlImage'), produitController.updateProduit);
 router.delete("/gestion-produits/:id", produitController.deleteProduit);
 router.get("/gestion-commandes", commandeController.gestionCommandes);
 router.get("/gestion-commandes/:id", commandeController.detailGestionCommandes);
