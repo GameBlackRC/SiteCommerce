@@ -56,12 +56,15 @@ h3 {
 
 footer {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     margin-top: 110px;
     padding: 80px 0 70px;
 
     background-color: variables.$color-secondary;
-    
+
+    a,
     p {
         color: variables.$color-light;
     }
@@ -133,49 +136,102 @@ img {
     border: 1px solid #f5c6cb;
 }
 
+//PAGE HOME
+#main-home {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 180px;
+
+    margin: 0;
+    padding: 180px 0;
+
+    article {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+
+        align-items: flex-start;
+        h1 {
+            font-size: 60px;
+        }
+    }
+
+    aside {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+
+        img {
+            width: 450px;
+        }
+
+        section {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+    }
+}
+
 //PAGE LIST PRODUITS
 #section-list-produits {
     div {
         display: flex;
         flex-direction: column;
         gap: 20px;
-                
-            article {
-                display: flex;
-                flex-direction: column;
-        
-                width: 300px;
-                border-radius: 20px;
-        
-                background-color: variables.$color-primary;
-                box-shadow: 5px 5px 10px variables.$color-shadow;
-        
+
+        article {
+            display: flex;
+            flex-direction: column;
+
+            width: 300px;
+            border-radius: 20px;
+
+            background-color: variables.$color-primary;
+            box-shadow: 5px 5px 10px variables.$color-shadow;
+
+            transition: 0.8s;
+
+            img {
+                width: 100%;
+                height: 274px;
+                border-radius: 20px 20px 0 0;
                 transition: 0.8s;
-        
-                img {
-                    width: 100%;
-                    height: 274px;
-                    border-radius: 20px 20px 0 0;
-                    transition: 0.8s;
-                }
-        
-                .article-infos {
-                    display: flex;
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    justify-content: space-around;
-        
-                    padding: 20px 0 30px;
-                }
             }
-        
-            article:hover {
-                background-color: variables.$color-secondary;
-        
-                img {
-                    opacity: 0.8;
-                }
+
+            .article-infos {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-around;
+
+                padding: 20px 0 30px;
             }
+        }
+
+        article:hover {
+            background-color: variables.$color-secondary;
+
+            img {
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+//GESTION ADMIN
+//ADMINISTRATION
+#main-administration {
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        margin: 100px 0;
     }
 }
 
@@ -216,6 +272,48 @@ img {
             }
         }
     }
+
+    //DETAILS PRODUITS
+    #update-produit {
+        width: 80%;
+
+        form {
+            width: 100%;
+        }
+    }
+}
+
+//DETAILS COMMANDE
+#section-detail-commandes {
+    article {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        align-items: flex-start;
+        text-align: justify;
+    }
+
+    #form-update {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 50px;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #form-delete {
+        margin: 50px auto;
+
+        #delete-button {
+            background-color: variables.$color-warning;
+        }
+
+        #delete-button:hover {
+            background-color: variables.$color-warning-secondary;
+        }
+    }
 }
 
 //PAGE LOGIN + INSCRIPTION / SIGN-UP
@@ -237,7 +335,8 @@ img {
         margin-top: 15px;
     }
 
-    textarea, input {
+    textarea,
+    input {
         padding: 5px 0 5px 8px;
         border-radius: 3px;
         background-color: variables.$color-light;
@@ -245,7 +344,7 @@ img {
 
     span {
         margin: 10px 0 15px;
-        
+
         font-size: 15px;
         font-style: italic;
 
