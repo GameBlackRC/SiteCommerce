@@ -1,6 +1,6 @@
-const Commande = require("../model/command");
 const Account = require("../model/account");
-const Produit = require("../model/product");
+const Product = require("../model/product");
+const Command = require("../model/command");
 
 class ApiController {
     static home(req, res) {
@@ -24,13 +24,20 @@ class ApiController {
 
     static commande(req, res) {
         const id = req.params.id
-        Commande.getById(id).then(commande => {
+        Command.getById(id).then(commande => {
             res.status(200).json(commande)
         })
     }
 
+    static addCommand(req, res) {
+        Command.add(req.params.userID).then(command => {
+            //account.creationAccount();
+            res.status(200).json({"sucess": "Ajout de commande réussi"});
+        })
+    }
+
     static getAllCommand(req, res) {
-        Commande.getAll().then(commands => {
+        Command.getAll().then(commands => {
             res.status(200).json(commands);
         })
     }

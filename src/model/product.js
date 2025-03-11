@@ -8,7 +8,7 @@ class Product {
     categorie
     description
     prix
-    static service;
+    static service = new MysqlService("Produit", ['id', 'nom', 'urlImage', 'categorie', 'description', 'prix']);
 
     constructor(id, nom, urlImage, categorie, description, prix) {
         this.id = id;
@@ -17,27 +17,26 @@ class Product {
         this.categorie = categorie;
         this.description = description;
         this.prix = prix;
-        service = new MysqlService("Produit", ['id', 'nom', 'urlImage', 'categorie', 'description', 'prix']);
     }
 
     static async getById(id) {
-        const data = await service.getById(id);
+        const data = await Product.service.getById(id);
         const produit = new Product(data.id, data.nom, data.urlImage, data.categorie, data.description, data.prix);
         return produit;
     }
 
     static async getAll() {
-        const data = await service.getAll();
+        const data = await Product.service.getAll();
         return data.map(item => new Product(item.id, item.nom, item.urlImage, item.categorie, item.description, item.prix));
     }
 
     static async add(data) {
-        const result = await service.add(data);
+        const result = await Product.service.add(data);
         const produit = new Product(data.id, data.nom, data.urlImage, data.categorie, data.description, data.prix);
         return produit;
     }
     static async delete(id) {
-        const result = await service.delete(id);
+        const result = await Product.service.delete(id);
         return result;
     }
 

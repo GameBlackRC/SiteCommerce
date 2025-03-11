@@ -6,6 +6,8 @@ class MysqlService {
     #con
     tableStruct;
     constructor(tableName, tableStruct) {
+        this.tableName = tableName;
+        this.tableStruct = tableStruct;
     }
     async getAll() {
         const [results, fields] = await this.#con.query(
@@ -73,7 +75,7 @@ class MysqlService {
     }
     async getCart(id) {
         const [results, fields] = await connection.promise().query(
-            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.idAccount=? AND c.statut = 'panier'",
+            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Command` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.idCompte=? AND c.statut = 'panier'",
             [id]
         );
         let cart = [];
@@ -92,7 +94,7 @@ class MysqlService {
 
     static async getCommand(id) {
         const [results, fields] = await connection.promise().query(
-            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.id=?",
+            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Command` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.id=?",
             [id]
         );
         let panier = [];

@@ -7,17 +7,16 @@ class Command {
     compte;
     statut;
     listProduit = [];
-    static service;
+    static service = new MysqlService("Command", ['id', 'idCompte', 'statut']);
 
     constructor(id, compte, statut) {
         this.id = id;
         this.compte = compte;
         this.statut = statut;
-        service = new MysqlService("Commande", ['id', 'idCompte', 'statut']);
     }
 
-    static async loadPanier(compte) {
-        const data = await service.getPanierByCompte(compte.id);
+    static async loadCart(compte) {
+        const data = await Command.service.getCart(compte.id);
         const command = new Command('panier');
         data.forEach((produit) => {
             command.listProduit.push({
@@ -29,7 +28,7 @@ class Command {
     }
 
     static async loadPanierById(compteId) {
-        const data = await service.getPanierByCompte(compteId);
+        const data = await Command.service.getCart(compteId);
         const command = new Command('panier');
         data.forEach((produit) => {
             command.listProduit.push({
@@ -41,24 +40,33 @@ class Command {
     }
 
     static async getById(id) {
-        const data = await service.getById(id);
+        const data = await Command.service.getById(id);
         const command = new Command(data.id, data.compte, data.statut);
         // await Command.loadPanierById(1);
         return command;
     }
 
     static async getAll() {
-        const data = await service.getAll();
+        const data = await Command.service.getAll();
         return data.map(item => new Command(item.id, item.idCompte, item.statut));
     }
 
+    static async add(idUser) {
+        const result = await Command.service.add({
+            idCompte: idUser,
+        })
+        const user = await Account.getById(idUser);
+        const command = new Command(result.insertId, user, "cart");
+        return command;
+    }
+
     static async update(id, data) {
-        const result = await service.update(id, data);
+        const result = await Command.service.update(id, data);
         return result;
     }
 
     static async delete(id) {
-        const result = await service.delete(id);
+        const result = await Command.service.delete(id);
         return result;
     }
 
