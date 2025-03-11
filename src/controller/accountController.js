@@ -28,6 +28,21 @@ class AccountController {
         //Account.setAdresseMail(db, id);
         res.redirect(`/account/${id}`);
     }
+
+    static clientAccount(req, res) {
+        const id = req.params.id;
+        Account.getById(id).then(account => {
+            res.render("account", { account: account })
+        });
+    }
+
+    static login(req, res) {
+        res.render("login");
+    };
+
+    static signUp(req, res) {
+        res.render("signUp");
+    }
 }
 
 module.exports = AccountController;

@@ -3,14 +3,13 @@ const MD5 = require('crypto-js/md5');
 
 class MysqlService {
     tableName;
-    #con
     tableStruct;
     constructor(tableName, tableStruct) {
         this.tableName = tableName;
         this.tableStruct = tableStruct;
     }
     async getAll() {
-        const [results, fields] = await this.#con.query(
+        const [results, fields] = await connection.promise().query(
             'SELECT * FROM `' + this.tableName + '`'
         );
         return results
@@ -48,10 +47,11 @@ class MysqlService {
     async add(data) {
         console.log(data);
 
-        const tmpListe = this.tableStruct.map(col => `'${data[col]}'`)
+        const tmpListe = this.tableStruct.filter(col => data[col] != undefined).map(col => `'${data[col]}'`);
+        const tableStruct = this.tableStruct.filter(col => data[col] != undefined);
 
         const [results, fields] = await connection.promise().query(
-            'INSERT INTO `' + this.tableName + '` (' + this.tableStruct.join(', ') + ') VALUES(' + tmpListe.join(", ") + ')'
+            'INSERT INTO `' + this.tableName + '` (' + tableStruct.join(', ') + ') VALUES(' + tmpListe.join(", ") + ')'
         );
         return results;
 
@@ -69,7 +69,7 @@ class MysqlService {
     async login(login, password) {
         const [results, fields] = await connection.promise().query(
             "SELECT * FROM `" + this.tableName + "` WHERE login=? AND password=?",
-            [login, password]
+            [login, MD5(password)]
         );
         return results;
     }
@@ -109,6 +109,30 @@ class MysqlService {
             });
         })
         return panier;
+    }
+
+    async addProductToCommand(idCommande, idProduct, nombre) {
+        const [results, fields] = await connection.promise().query(
+            'INSERT INTO `ProduitsCommande` (idCommande, idProduit, nombre) VALUES(?, ?, ?)',
+            [idCommande, idProduct, nombre]
+        );
+        return results;
+    }
+
+    async removeProductToCommand(idCommande, idProduct) {
+        const [results, fields] = await connection.promise().query(
+            'DELETE FROM `ProduitsCommande` WHERE idCommande=? AND idProduit=?',
+            [idCommande, idProduct]
+        );
+        return results;
+    }
+
+    async editNumberProductToCommand(idCommande, idProduct, number) {
+        const [results, fields] = await connection.promise().query(
+            'UPDATE `ProduitsCommande` SET nombre=? WHERE idCommande=? AND idProduit=?',
+            [number, idCommande, idProduct]
+        );
+        return results;
     }
 
 }

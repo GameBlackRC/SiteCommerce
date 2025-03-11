@@ -4,14 +4,12 @@ const Produit = require("./product");
 
 class Command {
     id;
-    compte;
     statut;
     listProduit = [];
     static service = new MysqlService("Command", ['id', 'idCompte', 'statut']);
 
-    constructor(id, compte, statut) {
+    constructor(id, statut) {
         this.id = id;
-        this.compte = compte;
         this.statut = statut;
     }
 
@@ -41,22 +39,37 @@ class Command {
 
     static async getById(id) {
         const data = await Command.service.getById(id);
-        const command = new Command(data.id, data.compte, data.statut);
+        console.log(data);
+        const command = new Command(data.id, data.statut);
         // await Command.loadPanierById(1);
         return command;
     }
 
     static async getAll() {
         const data = await Command.service.getAll();
-        return data.map(item => new Command(item.id, item.idCompte, item.statut));
+        return data.map(item => new Command(item.id, item.statut));
+    }
+
+    async addProduct(idProduit, nombre) {
+        const result = await Command.service.addProductToCommand(this.id, idProduit, nombre);
+        return result;
+    }
+
+    async removeProduct(idProduit) {
+        const result = await Command.service.removeProductToCommand(this.id, idProduit);
+        return result;
+    }
+
+    async editNumberProduct(idProduit, number) {
+        const result = await Command.service.editNumberProductToCommand(this.id, idProduit, number);
+        return result;
     }
 
     static async add(idUser) {
         const result = await Command.service.add({
             idCompte: idUser,
         })
-        const user = await Account.getById(idUser);
-        const command = new Command(result.insertId, user, "cart");
+        const command = new Command(result.insertId, "cart");
         return command;
     }
 

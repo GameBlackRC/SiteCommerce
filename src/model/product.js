@@ -39,6 +39,10 @@ class Product {
         const result = await Product.service.delete(id);
         return result;
     }
+    static async updateById(id, body) {
+        const result = await Product.service.update(id, body);
+        return result;
+    }
 
 }
 
