@@ -1,10 +1,10 @@
-const Compte = require("../model/compte");
-const Produit = require('../model/produit');
+const Account = require("../model/account");
+const Product = require('../model/product');
 
 class AppController {
     static home(req, res) {
-        Compte.getById(1).then(compte => {
-            res.render("home", { title: "Site E-Commerce - Accueil", compte: compte, prix: compte.prixPanier });
+        Account.getById(1).then(account => {
+            res.render("home", { title: "Site E-Commerce - Accueil", account: account, prix: account.prixPanier });
         })
     };
 
@@ -24,10 +24,10 @@ class AppController {
         res.render("panier");
     }
 
-    static compteClient(req, res) {
+    static clientAccount(req, res) {
         const id = req.params.id;
-        Compte.getById(id).then(compte => {
-            res.render("compteClient", { compte: compte })
+        Account.getById(id).then(account => {
+            res.render("account", { account: account })
         });
     }
 };

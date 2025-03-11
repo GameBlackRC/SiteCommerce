@@ -1,12 +1,12 @@
-const Commande = require("../model/commande");
-const Compte = require("../model/compte");
-const Produit = require("../model/produit");
+const Commande = require("../model/command");
+const Account = require("../model/account");
+const Produit = require("../model/product");
 
 class ApiController {
     static home(req, res) {
-        Compte.getById(2).then(compte => {
-            compte.remove();
-            res.render("home", {title: "Site E-Commerce - Accueil", compte: compte, prix: compte.prixPanier});
+        Account.getById(2).then(account => {
+            account.remove();
+            res.render("home", {title: "Site E-Commerce - Accueil", account: account, prix: account.prixPanier});
         })
     };
     
@@ -15,9 +15,9 @@ class ApiController {
     };
 
     static login(req, res) {
-        Compte.testLogin(req.params.login, req.params.password).then(compte => {
-            if(compte == null) res.status(200).json({"error": "Nom d'utilisateur ou mot de passe invalide"})
-            const testJSON = compte.json();
+        Account.testLogin(req.params.login, req.params.password).then(account => {
+            if(account == null) res.status(200).json({"error": "Nom d'utilisateur ou mot de passe invalide"})
+            const testJSON = account.json();
             res.status(200).json(testJSON);
         })
     };
@@ -29,28 +29,40 @@ class ApiController {
         })
     }
 
-    static compteClient(req, res) {
+    static getAllCommand(req, res) {
+        Commande.getAll().then(commands => {
+            res.status(200).json(commands);
+        })
+    }
+
+    static clientAccount(req, res) {
         const id = req.params.id
-        Compte.getById(id).then(compte => {
-            res.status(200).json(compte)
+        Account.getById(id).then(account => {
+            res.status(200).json(account)
+        })
+    }
+
+    static getAllAccount(req, res) {
+        Account.getAll().then(accounts => {
+            res.status(200).json(accounts)
         })
     }
 
     static addClient(req, res) {
-        Compte.add(req.body.login, req.body.password, req.body.adresseMail).then(compte => {
-            //compte.creationCompte();
+        Account.add(req.body.login, req.body.password, req.body.adresseMail).then(account => {
+            //account.creationAccount();
             res.status(200).json({"sucess": "Ajout de compte réussi"});
         })
     }
 
     static removeClient(req, res) {
-        Compte.removeById(req.params.id).then(compte => {
+        Account.removeById(req.params.id).then(account => {
             res.status(200).json({"sucess": "Suppression du compte réussi"});
         })
     }
 
     static updateClient(req, res) {
-        Compte.updateById(req.params.id, req.body).then(result => {
+        Account.updateById(req.params.id, req.body).then(result => {
             res.status(200).json(result);
         })
     }

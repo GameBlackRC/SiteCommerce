@@ -1,40 +1,49 @@
 const connection = require('../../dbConnect');
+const MD5 = require('crypto-js/md5');
 
-class CommandeService {
-    static tableName = "Commande";
+class MysqlService {
+    tableName;
     #con
-    static tableStruct = ['id', 'idCompte', 'statut'];
-    constructor() {
+    tableStruct;
+    constructor(tableName, tableStruct) {
     }
-
-    static async getAll() {
-        const [result, fields] = await connection.promise().query(
+    async getAll() {
+        const [results, fields] = await this.#con.query(
             'SELECT * FROM `' + this.tableName + '`'
         );
-        return result;
-    }
+        return results
 
-    static async getById(id) {
+    }
+    async getById(id) {
         const [results, fields] = await connection.promise().query(
             'SELECT * FROM `' + this.tableName + '` WHERE id=?',
             [id]
         );
         return results[0]
-    }
-    
-    static async update(id, data) {
-        const tmpListe = Object.keys(data)
-        .filter(col => this.tableStruct.includes(col))
-        .map(col => `${col}='${data[col]}'`);
 
-        const [results, fields] = await connection.promise().query(
-            'UPDATE `' + this.tableName + '` SET ' + tmpListe.join(", ") + ' WHERE id=?',
-            [id]
-        );
-        return results;
     }
+    async update(id, data) {
+        let tmpListe = [];
+        let error;
+        const tableStruct = this.tableStruct;
+        Object.keys(data).forEach(key => {
+            if(tableStruct.includes(key)) {
+                if(key == "password") tmpListe.push(`${key}='${MD5(data[key]).toString()}'`);
+                else tmpListe.push(`${key}='${data[key]}'`);
+            } else {
+                error = {"error": "Un champ n'est pas nommé correctement"}
+            }
+        });
+        if(error == undefined) {
+            const [results, fields] = await connection.promise().query(
+                'UPDATE `' + this.tableName + '` SET ' + tmpListe.join(", ") + ' WHERE id=?',
+                [id]
+            );
+            return {"sucess": "Mise à jour réussi"};
+        } else return error;
 
-    static async add(data) {
+    }
+    async add(data) {
         console.log(data);
 
         const tmpListe = this.tableStruct.map(col => `'${data[col]}'`)
@@ -46,22 +55,30 @@ class CommandeService {
 
     }
 
-    static async delete(id) {
+    async delete(id) {
         const [results, fields] = await connection.promise().query(
             'DELETE FROM `' + this.tableName + '` WHERE id=?',
             [id]
         );
+        return results
+
+    }
+    
+    async login(login, password) {
+        const [results, fields] = await connection.promise().query(
+            "SELECT * FROM `" + this.tableName + "` WHERE login=? AND password=?",
+            [login, password]
+        );
         return results;
     }
-
-    static async getPanierByCompte(id) {
+    async getCart(id) {
         const [results, fields] = await connection.promise().query(
-            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.idCompte=? AND c.statut = 'panier'",
+            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.idAccount=? AND c.statut = 'panier'",
             [id]
         );
-        let panier = [];
+        let cart = [];
         results.forEach((result) => {
-            panier.push({
+            cart.push({
                 nom: result.nom,
                 urlImage: result.urlImage,
                 description: result.description,
@@ -70,10 +87,10 @@ class CommandeService {
                 nombre: result.nombre
             });
         })
-        return panier;
+        return cart;
     }
 
-    static async getCommande(id) {
+    static async getCommand(id) {
         const [results, fields] = await connection.promise().query(
             "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Commande` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.id=?",
             [id]
@@ -94,4 +111,4 @@ class CommandeService {
 
 }
 
-module.exports = CommandeService;
+module.exports = MysqlService;

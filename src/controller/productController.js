@@ -1,15 +1,15 @@
-const Produit = require('../model/produit');
+const Product = require('../model/product');
 
-class produitController {
+class productController {
     static listeProduits(req, res) {
-        Produit.getAll().then(produits => {
+        Product.getAll().then(produits => {
             res.render('listeProduits', { title: "Site E-Commerce - Produits", produits: produits });
         })
     };
 
     static detailProduit(req, res) {
         const id = req.params.id;
-        Produit.getById(id).then(produit => {
+        Product.getById(id).then(produit => {
             res.render("detailProduit", { title: `Site E-Commerce - Détails Produit ${produit.nom}`, produit: produit });
         })
     };
@@ -18,14 +18,14 @@ class produitController {
         const success = req.query.success;
         const error = req.query.error;
 
-        Produit.getAll().then(produits => {
+        Product.getAll().then(produits => {
             res.render("gestionProduits", { title: `Site E-Commerce - Gestion Produits`, produits: produits, success, error });
         });
     }
     
     static detailGestionProduits(req, res) {
         const id = req.params.id;
-        Produit.getById(id).then(produit => {
+        Product.getById(id).then(produit => {
             res.render("detailGestionProduits", { title: `Site E-Commerce - Gestion Produits ${produit.nom}`, produit: produit });
         });
     }
@@ -40,7 +40,7 @@ class produitController {
                 prix: req.body.prix
             };
 
-            Produit.add(data).then(() => {
+            Product.add(data).then(() => {
                 res.redirect("/gestion-produits?sucess=Produit ajouté avec succès.");
             });
 
@@ -58,4 +58,4 @@ class produitController {
     }
 }
 
-module.exports = produitController;
+module.exports = productController;

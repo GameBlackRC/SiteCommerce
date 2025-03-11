@@ -1,6 +1,6 @@
-const Commande = require('../model/commande');
+const Command = require('../model/command');
 
-class commandeController {
+class commandController {
     static commande(req, res) {
         res.render("commande");
     }
@@ -9,21 +9,21 @@ class commandeController {
         const success = req.query.success;
         const error = req.query.error;
 
-        Commande.getAll().then(commandes => {
-            res.render("gestionCommandes", { title: `Site E-Commerce - Gestion Commandes`, commandes: commandes, success, error });
+        Command.getAll().then(commands => {
+            res.render("gestionCommandes", { title: `Site E-Commerce - Gestion Commandes`, commands: commands, success, error });
         });
     }
 
     static detailGestionCommandes(req, res) {
         const id = req.params.id;
-        Commande.getById(id).then(commande => {
-            res.render("detailGestionCommandes", { title: `Site E-Commerce - Gestion Commande ${commande.id}`, commande: commande});
+        Command.getById(id).then(command => {
+            res.render("detailGestionCommandes", { title: `Site E-Commerce - Gestion Commande ${command.id}`, command: command});
         })
     }
 
     static deleteCommande(req, res) {
         const id = req.params.id;
-        Commande.delete(id).then(() => {
+        Command.delete(id).then(() => {
             res.redirect("/gestion-commandes");
         })
     }
@@ -31,10 +31,10 @@ class commandeController {
     static updateCommande(req, res) {
         const id = req.params.id;
         const data = { statut : req.body.statut };
-        Commande.update(id, data).then(() => {
+        Command.update(id, data).then(() => {
             res.redirect("/gestion-commandes");
         })
     }
 }
 
-module.exports = commandeController;
+module.exports = commandController;
