@@ -1,19 +1,31 @@
 const express = require('express');
 const AppController = require('../controller/appController.js');
 const ApiController = require('../controller/apiController.js');
-const produitController = require('../controller/produitController.js');
+const productController = require('../controller/productController.js');
+const auth = require('../middleware/auth')
 
 const router = express.Router();
 
-router.get("/", AppController.home);
-router.get("/produits", produitController.listeProduits);
-router.get("/login/:login/:password", ApiController.login);
-router.get("/commande/:id", ApiController.commande);
-router.get("/compte/:id", ApiController.compteClient);
-router.post("/compte", ApiController.addClient);
-router.delete("/compte/:id", ApiController.removeClient);
-router.patch("/compte/:id", ApiController.updateClient);
-router.post("/test", ApiController.test);
-router.get("/panier/:id", AppController.panier);
+router.get("/produits", auth, ApiController.getAllProduct);
+router.post("/produits", auth, ApiController.addProduct);
+router.get("/produits/:id", auth, ApiController.getProduct);
+router.delete("/produits/:id", auth, ApiController.deleteProduct);
+router.patch("/produits/:id", auth, ApiController.updateProduct);
+
+router.get("/login/:login", ApiController.login);
+router.get("/accounts", auth, ApiController.getAllAccount);
+router.get("/accounts/:id", auth, ApiController.clientAccount);
+router.post("/accounts", ApiController.addAccount);
+router.delete("/accounts/:id", auth, ApiController.removeAccount);
+router.patch("/accounts/:id", auth, ApiController.updateAccount);
+
+router.get("/commands", auth, ApiController.getAllCommand); //liste produit a check
+router.post("/commands/:userID", auth, ApiController.addCommand); //liste produit a check
+router.get("/commands/:id", auth, ApiController.commande);
+router.post("/commands/:id/products/:idProduct", auth, ApiController.addProductToCommand);
+router.delete("/commands/:id/products/:idProduct", auth, ApiController.removeProductToCommand);
+router.patch("/commands/:id/products/:idProduct", auth, ApiController.editNumberProductToCommand);
+router.patch("/commands/:id", auth, ApiController.editCommand);
+router.delete("/commands/:id", auth, ApiController.deleteCommand);
 
 module.exports = router;
