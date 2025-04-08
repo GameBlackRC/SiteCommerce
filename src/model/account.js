@@ -1,5 +1,5 @@
 const Command = require('./command');
-const Produit = require('./product');
+const Product = require('./product');
 const MD5 = require('crypto-js/md5');
 const MysqlService = require('../service/mysqlService');
 
@@ -9,7 +9,7 @@ class Account {
     mail;
     password;
     commands = [];
-    static service = new MysqlService("Account", ['login', 'mail', 'password']);
+    static service = new MysqlService("Account", ['id', 'login', 'mail', 'password']);
 
     constructor(id, login, password, mail) {
         this.id = id;
@@ -27,7 +27,7 @@ class Account {
     }
 
     loadById(db) {
-        const sql = 'SELECT * FROM user WHERE id=?'+ id;
+        const sql = 'SELECT * FROM account WHERE id=?'+ id;
     }
 
     creationAccount() {
@@ -40,7 +40,7 @@ class Account {
 
     loginAccount(db, id) {
 
-        const sql = 'SELECT * FROM user WHERE id=?' + id;
+        const sql = 'SELECT * FROM account WHERE id=?' + id;
         db.connection.query(sql, (error) => {
             if(error) throw error;
         })
@@ -49,7 +49,7 @@ class Account {
     }
 
     setLogin(db, login) {
-        const sql = 'UPDATE user SET login = '+ login + ' WHERE id=?'+ id;
+        const sql = 'UPDATE account SET login = '+ login + ' WHERE id=?'+ id;
 
         db.connection.query(sql, (error) => {
             if(error) throw error;
@@ -59,7 +59,7 @@ class Account {
     }
 
     setMail(db, mail) {
-        const sql = 'UPDATE user SET email = '+ mail +' WHERE id=?'+ id;
+        const sql = 'UPDATE account SET mail = '+ mail +' WHERE id=?'+ id;
 
         db.connection.query(sql, (error) => {
             if(error) throw error;
@@ -132,7 +132,7 @@ class Account {
 
     get cartPrice() {
         this.commands.forEach((command) => {
-            if(command.statut == "cart") return command.prix;
+            if(command.statut == "cart") return command.price;
         })
         return 0;
     }

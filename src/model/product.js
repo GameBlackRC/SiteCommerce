@@ -1,38 +1,52 @@
 const connection = require('../../dbConnect');
 const MysqlService = require('../service/mysqlService');
+const Category = require('./category');
 
 class Product {
     id
-    nom
-    urlImage
-    categorie
+    name
+    urlImg
+    idCategory
     description
-    prix
-    static service = new MysqlService("Produit", ['id', 'nom', 'urlImage', 'categorie', 'description', 'prix']);
+    price
+    static service = new MysqlService("Product", ['id', 'name', 'urlImg', 'idCategory', 'description', 'price']);
 
-    constructor(id, nom, urlImage, categorie, description, prix) {
+    constructor(id, name, urlImg, idCategory, description, price) {
         this.id = id;
-        this.nom = nom;
-        this.urlImage = urlImage;
-        this.categorie = categorie;
+        this.name = name;
+        this.urlImg = urlImg;
+        this.idCategory = idCategory;
         this.description = description;
-        this.prix = prix;
+        this.price = price;
     }
 
     static async getById(id) {
         const data = await Product.service.getById(id);
-        const produit = new Product(data.id, data.nom, data.urlImage, data.categorie, data.description, data.prix);
-        return produit;
+        const product = new Product(data.id, data.name, data.urlImg, data.idCategory, data.description, data.price);
+        
+        const category = await Category.getById(data.idCategory);
+        product.category = category;
+
+        return product;
     }
 
     static async getAll() {
         const data = await Product.service.getAll();
-        return data.map(item => new Product(item.id, item.nom, item.urlImage, item.categorie, item.description, item.prix));
+        const products = await Promise.all(data.map(async (item) => {
+            const product = new Product(item.id, item.name, item.urlImg, item.idCategory, item.description, item.price);
+            
+            const category = await Category.getById(item.idCategory);
+            product.category = category;
+    
+            return product;
+        }));
+    
+        return products;
     }
-
+    
     static async add(data) {
         const result = await Product.service.add(data);
-        const produit = new Product(data.id, data.nom, data.urlImage, data.categorie, data.description, data.prix);
+        const produit = new Product(data.id, data.name, data.urlImg, data.idCategory, data.description, data.price);
         return produit;
     }
     static async delete(id) {
@@ -45,7 +59,7 @@ class Product {
     }
 
     static async update(id, data) {
-        const result = await ProduitService.update(id, data);
+        const result = await Product.service.update(id, data);
         return result;
     }
 }

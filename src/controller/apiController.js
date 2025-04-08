@@ -1,6 +1,7 @@
 const Account = require("../model/account");
 const Product = require("../model/product");
 const Command = require("../model/command");
+const Category = require("../model/category");
 const MD5 = require('crypto-js/md5');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
@@ -101,14 +102,26 @@ class ApiController {
 
     static getProduct(req, res) {
         Product.getById(req.params.id).then(product => {
-            res.status(200).json(product);
-        })
+            return Category.getById(product.idCategory).then(category => {
+                product.category = category;
+                res.status(200).json(product);
+            });
+        });
     }
+    
 
     static getAllProduct(req, res) {
         Product.getAll().then(products => {
-            res.status(200).json(products);
-        })
+            const productsWithCategory = products.map(async (product) => {
+                const category = await Category.getById(product.idCategory);
+                product.category = category;
+                return product;
+            });
+
+            Promise.all(productsWithCategory).then(productsWithCategory => {
+                res.status(200).json(productsWithCategory);
+            })
+        });
     }
 
     static addProduct(req, res) {
@@ -126,6 +139,36 @@ class ApiController {
     static deleteProduct(req, res) {
         Product.delete(req.params.id).then(product => {
             res.status(200).json(product);
+        })
+    }
+
+    static getCategory(req, res) {
+        Category.getById(req.params.id).then(category => {
+            res.status(200).json(category);
+        })
+    }
+
+    static getAllCategories(req, res) {
+        Category.getAll().then(categories => {
+            res.status(200).json(categories);
+        })
+    }
+
+    static addCategory(req, res) {
+        Category.add(req.body).then(category => {
+            res.status(200).json(category);
+        })
+    }
+
+    static updateCategory(req, res) {
+        Category.updateById(req.params.id, req.body).then(category => {
+            res.status(200).json(category);
+        })
+    }
+
+    static deleteCategory(req, res) {
+        Category.delete(req.params.id).then(category => {
+            res.status(200).json(category);
         })
     }
 

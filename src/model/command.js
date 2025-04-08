@@ -5,33 +5,33 @@ const Produit = require("./product");
 class Command {
     id;
     statut;
-    listProduit = [];
-    static service = new MysqlService("Command", ['id', 'idCompte', 'statut']);
+    listProduct = [];
+    static service = new MysqlService("Command", ['id', 'idAccount', 'statut']);
 
     constructor(id, statut) {
         this.id = id;
         this.statut = statut;
     }
 
-    static async loadCart(compte) {
-        const data = await Command.service.getCart(compte.id);
+    static async loadCart(account) {
+        const data = await Command.service.getCart(account.id);
         const command = new Command('panier');
-        data.forEach((produit) => {
-            command.listProduit.push({
-                data: new Produit(produit.nom, produit.urlImage, produit.description, produit.prix, produit.categorie),
-                nombre: produit.nombre           
+        data.forEach((product) => {
+            command.listProduct.push({
+                data: new Produit(product.name, product.urlImg, product.description, product.price, product.category),
+                quantity: product.quantity           
             })
         })
         return command;
     }
 
-    static async loadPanierById(compteId) {
-        const data = await Command.service.getCart(compteId);
+    static async loadPanierById(idAccount) {
+        const data = await Command.service.getCart(idAccount);
         const command = new Command('panier');
-        data.forEach((produit) => {
-            command.listProduit.push({
-                data: new Produit(produit.nom, produit.urlImage, produit.description, produit.prix, produit.categorie),
-                nombre: produit.nombre           
+        data.forEach((product) => {
+            command.listProduct.push({
+                data: new Produit(product.name, product.urlImg, product.description, product.price, product.category),
+                quantity: product.quantity           
             })
         })
         return command;
@@ -45,23 +45,43 @@ class Command {
         return command;
     }
 
+
     static async getAll() {
         const data = await Command.service.getAll();
-        return data.map(item => new Command(item.id, item.statut));
-    }
+            
+        const commands = await Promise.all(
+            data.map(async (item) => {
+            const command = new Command(item.id, item.statut);
+            const products = await Command.service.getCommand(item.id);
 
-    async addProduct(idProduit, nombre) {
-        const result = await Command.service.addProductToCommand(this.id, idProduit, nombre);
+            console.log('Products : ', products);
+    
+            products.forEach((product) => {
+                command.listProduct.push({
+                    data: new Produit(product.name, product.urlImg, product.description, product.price, product.idCategory),
+                    quantity: product.quantity
+                });
+            });
+    
+            return command;
+        }));
+    
+        return commands;
+    }
+    
+
+    async addProduct(idProduct, quantity) {
+        const result = await Command.service.addProductToCommand(this.id, idProduct, quantity);
         return result;
     }
 
-    async removeProduct(idProduit) {
-        const result = await Command.service.removeProductToCommand(this.id, idProduit);
+    async removeProduct(idProduct) {
+        const result = await Command.service.removeProductToCommand(this.id, idProduct);
         return result;
     }
 
-    async editNumberProduct(idProduit, number) {
-        const result = await Command.service.editNumberProductToCommand(this.id, idProduit, number);
+    async editNumberProduct(idProduct, number) {
+        const result = await Command.service.editNumberProductToCommand(this.id, idProduct, number);
         return result;
     }
 
@@ -83,10 +103,10 @@ class Command {
         return result;
     }
 
-    get prix() {
+    get price() {
         let total = 0;
-        this.listProduit.forEach((produit) => {
-            total += (produit.data.prix)*produit.nombre;
+        this.listProduct.forEach((product) => {
+            total += (product.data.price)*product.quantity;
         })
         return total;
     }

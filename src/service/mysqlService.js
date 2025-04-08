@@ -75,62 +75,62 @@ class MysqlService {
     }
     async getCart(id) {
         const [results, fields] = await connection.promise().query(
-            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Command` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.idCompte=? AND c.statut = 'panier'",
+            "SELECT c.id, pr.name, pr.urlImg, pr.idCategory, pr.description, pr.price, p.quantity FROM `ProductCommand` p JOIN `Command` c ON c.id = p.idCommand JOIN `Product` pr ON pr.id = p.idProduct WHERE c.idAccount=? AND c.statut = 'panier'",
             [id]
         );
         let cart = [];
         results.forEach((result) => {
             cart.push({
-                nom: result.nom,
-                urlImage: result.urlImage,
+                name: result.nom,
+                urlImg: result.urlImg,
                 description: result.description,
-                prix: result.prix,
-                categorie: result.categorie,
-                nombre: result.nombre
+                price: result.price,
+                category: result.idCategory,
+                quantity: result.quantity
             });
         })
         return cart;
     }
 
-    static async getCommand(id) {
+    async getCommand(id) {
         const [results, fields] = await connection.promise().query(
-            "SELECT c.id, pr.nom, pr.urlImage, pr.categorie, pr.description, pr.prix, p.nombre FROM `ProduitsCommande` p JOIN `Command` c ON c.id = p.idCommande JOIN `Produit` pr ON pr.id = p.idProduit WHERE c.id=?",
+            "SELECT c.id, pr.name, pr.urlImg, pr.idCategory, pr.description, pr.price, p.quantity FROM `ProductCommand` p JOIN `Command` c ON c.id = p.idCommand JOIN `Product` pr ON pr.id = p.idProduct WHERE c.id=?",
             [id]
         );
         let panier = [];
         results.forEach((result) => {
             panier.push({
-                nom: result.nom,
-                urlImage: result.urlImage,
+                name: result.name,
+                urlImg: result.urlImg,
                 description: result.description,
-                prix: result.prix,
-                categorie: result.categorie,
-                nombre: result.nombre
+                price: result.price,
+                category: result.idCategory,
+                quantity: result.quantity
             });
         })
         return panier;
     }
 
-    async addProductToCommand(idCommande, idProduct, nombre) {
+    async addProductToCommand(idCommand, idProduct, quantity) {
         const [results, fields] = await connection.promise().query(
-            'INSERT INTO `ProduitsCommande` (idCommande, idProduit, nombre) VALUES(?, ?, ?)',
-            [idCommande, idProduct, nombre]
+            'INSERT INTO `ProductCommand` (idCommand, idProduct, quantity) VALUES(?, ?, ?)',
+            [idCommand, idProduct, quantity]
         );
         return results;
     }
 
-    async removeProductToCommand(idCommande, idProduct) {
+    async removeProductToCommand(idCommand, idProduct) {
         const [results, fields] = await connection.promise().query(
-            'DELETE FROM `ProduitsCommande` WHERE idCommande=? AND idProduit=?',
-            [idCommande, idProduct]
+            'DELETE FROM `ProductCommand` WHERE idCommand=? AND idProduct=?',
+            [idCommand, idProduct]
         );
         return results;
     }
 
-    async editNumberProductToCommand(idCommande, idProduct, number) {
+    async editNumberProductToCommand(idCommand, idProduct, quantity) {
         const [results, fields] = await connection.promise().query(
-            'UPDATE `ProduitsCommande` SET nombre=? WHERE idCommande=? AND idProduit=?',
-            [number, idCommande, idProduct]
+            'UPDATE `ProductCommand` SET quantity=? WHERE idCommand=? AND idProduct=?',
+            [quantity, idCommand, idProduct]
         );
         return results;
     }

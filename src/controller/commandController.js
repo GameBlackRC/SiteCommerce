@@ -1,6 +1,5 @@
-const Commande = require('../model/commande');
-const Compte = require('../model/compte');
-const Produit = require('../model/produit');
+const Account = require('../model/account');
+const Product = require('../model/product');
 const Command = require('../model/command');
 
 class commandController {

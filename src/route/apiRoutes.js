@@ -12,6 +12,11 @@ router.get("/produits/:id", auth, ApiController.getProduct);
 router.delete("/produits/:id", auth, ApiController.deleteProduct);
 router.patch("/produits/:id", auth, ApiController.updateProduct);
 
+router.get("/categories/:id", auth, ApiController.getCategory);
+router.get("/categories", auth, ApiController.getAllCategories);
+router.post("/categories", auth, ApiController.addCategory);
+router.delete("/categories/:id", auth, ApiController.deleteCategory);
+
 router.get("/login/:login", ApiController.login);
 router.get("/accounts", auth, ApiController.getAllAccount);
 router.get("/accounts/:id", auth, ApiController.clientAccount);
