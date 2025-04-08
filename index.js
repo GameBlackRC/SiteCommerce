@@ -1,5 +1,6 @@
 const connection = require("./dbConnect");
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 let bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -27,6 +28,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(express.static("./public"));
+app.use('/assets/', express.static(path.join(process.cwd(), './public/assets')));
 app.use(express.urlencoded({
     extended: true
 }));

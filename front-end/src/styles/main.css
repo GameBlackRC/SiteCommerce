@@ -383,8 +383,7 @@ footer p {
   flex-direction: column;
   gap: 15px;
   box-sizing: border-box;
-  width: 18%;
-  min-width: 230px;
+  width: 400px;
   padding: 30px 25px;
   background-color: #5866ff;
   box-shadow: 10px 0px 50px rgba(69, 77, 165, 0.2588235294);
@@ -435,4 +434,81 @@ footer p {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 50px;
+}
+
+.main-gestion-command .list-command {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 50px;
+  margin: 40px 0 80px;
+}
+.main-gestion-command .list-command article {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 300px;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: #fbfbff;
+  box-shadow: 5px 5px 15px rgba(69, 77, 165, 0.2588235294);
+  transition: 0.8s;
+}
+.main-gestion-command .list-command article h3, .main-gestion-command .list-command article p {
+  color: #5866ff;
+}
+
+.gestion-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.gestion-form-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: auto;
+  width: 40%;
+  padding: 50px;
+  border-radius: 20px;
+  background-color: #fbfbff;
+  box-shadow: 0px 10px 20px rgba(69, 77, 165, 0.2588235294);
+}
+.gestion-form-content form label {
+  margin-top: 15px;
+}
+.gestion-form-content form input, .gestion-form-content form select, .gestion-form-content form textarea {
+  padding: 8px 0px 8px 8px;
+  border: 1px solid #5866ff;
+  border-radius: 10px;
+}
+.gestion-form-content form textarea {
+  resize: none;
+  height: 160px;
+}
+.gestion-form-content form input[type=file] {
+  display: none;
+}
+.gestion-form-content form .urlImg-button {
+  margin: 0;
+  padding: 8px 0px 8px 8px;
+  border: 1px solid #5866ff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.gestion-form-content form input[type=submit] {
+  display: block;
+  margin: 35px auto 0;
+  padding: 5px 20px;
+  border-radius: 30px;
+  color: #fbfbff;
+  background-color: #4b59f1;
+  transition: 0.8s;
+  cursor: pointer;
+}
+.gestion-form-content form input[type=submit]:hover {
+  transform: scale(0.95);
+  background-color: #3c4bf0;
 }/*# sourceMappingURL=main.css.map */

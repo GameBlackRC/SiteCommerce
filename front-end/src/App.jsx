@@ -10,7 +10,7 @@ import SignUp from "./pages/SignUp";
 import Admin from "./pages/Admin";
 import GestionCategory from "./pages/GestionCategory";
 import GestionProduct from "./pages/GestionProduct";
-import GestionProductItem from "./components/GestionProductItem";
+import GestionProductDetails from "./pages/GestionProductDetails";
 import GestionCommand from "./pages/gestionCommand";
 import NotFound from "./pages/NotFound";
 import DetailsProduct from "./pages/DetailsProduct";
@@ -32,10 +32,10 @@ function App() {
           <Route index element={<Navigate to="/admin/gestion-produits" replace />} />
           <Route path='gestion-categories' element={<GestionCategory />} />
           <Route path='gestion-produits' element={<GestionProduct />} />
-          <Route path='gestion-produits/:id' element={<GestionProductItem />} />
           <Route path='gestion-commandes' element={<GestionCommand />} />
         </Route>
-        <Route path='*' element= {<NotFound />} />
+        <Route path='admin/gestion-produits/:id' element={<GestionProductDetails />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import marketPlace from '../../public/assets/marketplace.png';
 
 const Home = () => {
     return (
@@ -12,7 +11,7 @@ const Home = () => {
             </article>
 
             <aside>
-                <img src={marketPlace} alt="marketplace" />
+                <img src={`http://localhost:3000/assets/marketplace.png`} alt="marketplace" />
                 <section>
                     <Link to="/panier" className="button">Voir son panier</Link>
                     <Link to="/produits" className="button">Voir les produits</Link>

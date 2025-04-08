@@ -53,12 +53,10 @@ class Command {
             data.map(async (item) => {
             const command = new Command(item.id, item.statut);
             const products = await Command.service.getCommand(item.id);
-
-            console.log('Products : ', products);
     
             products.forEach((product) => {
                 command.listProduct.push({
-                    data: new Produit(product.name, product.urlImg, product.description, product.price, product.idCategory),
+                    data: new Produit(product.id, product.name, product.urlImg, product.description, product.price, product.idCategory),
                     quantity: product.quantity
                 });
             });

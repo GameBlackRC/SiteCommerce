@@ -1,30 +1,47 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { fetchProducts } from "../services/api";
+import { fetchCategories, fetchProducts, addProduct } from "../services/api";
 import GestionProductItem from "../components/GestionProductItem";
 
 const gestionProduct = () => {
+    const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const loadProducts = async () => {
+        const loadData = async () => {
             try {
-                const data = await fetchProducts();
-                setProducts(data);
+                const [categoriesData, productsData] = await Promise.all([
+                    fetchCategories(),
+                    fetchProducts()
+                ]);
+
+                setCategories(categoriesData);
+                setProducts(productsData);
             } catch (error) {
-                setError("Erreur lors du chargement des produits.");
+                setError("Erreur lors du chargement des données.");
             } finally {
                 setLoading(false);
             }
         };
 
-        loadProducts();
+        loadData();
     }, []);
 
+    const handleSubmit = async (element) => {
+        element.preventDefault();
+
+        const formData = new FormData(element.target);
+
+        await addProduct(formData);
+        setProducts(await fetchProducts());
+        
+        element.target.reset();
+    };
+
     if (loading) {
-        return <div>Chargements des produits...</div>
+        return <div>Chargements des données...</div>
     }
 
     if (error) {
@@ -41,22 +58,27 @@ const gestionProduct = () => {
                         <strong>{products.length}</strong>
                     </aside>
 
-                    <section>
+                    <section className="gestion-form-content">
                         <h2>Créer un nouveau produit</h2>
-                        <form className="main-form" method="POST" action="/gestion-produits" encType="multipart/form-data">
-                            <label for="nom">Nom du produit</label>
-                            <input type="text" name="nom" id="nom" required />
+                        <form className="gestion-form" onSubmit={handleSubmit} encType="multipart/form-data">
+                            <label htmlFor="name">Nom du produit</label>
+                            <input type="text" name="name" id="name" required />
 
-                            <label for="urlImg">Image du produit</label>
+                            <label htmlFor="urlImg">Image du produit</label>
+                            <label htmlFor="urlImg" className="urlImg-button">Insérez un fichier</label>
                             <input type="file" name="urlImg" id="urlImg" accept="image/*" required />
 
-                            <label for="categorie">Nom du produit</label>
-                            <input type="text" name="categorie" id="categorie" required />
+                            <label htmlFor="category">Catégorie du produit</label>
+                            <select id="category" name="category" required>
+                                {categories.map((category) => (
+                                    <option key={category.id} id={category.id} value={category.id}>{category.name}</option>
+                                ))}
+                            </select>
 
-                            <label for="prix">Prix du produit</label>
-                            <input type="number" name="prix" id="prix" min="0" required />
+                            <label htmlFor="price">Prix du produit</label>
+                            <input type="number" name="price" id="price" min="0" required />
 
-                            <label for="description">Description du produit</label>
+                            <label htmlFor="description">Description du produit</label>
                             <textarea id="description" name="description" required></textarea>
 
                             <input type="submit" value="Ajouter" />

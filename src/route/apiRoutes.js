@@ -3,11 +3,12 @@ const AppController = require('../controller/appController.js');
 const ApiController = require('../controller/apiController.js');
 const productController = require('../controller/productController.js');
 const auth = require('../middleware/auth')
+const upload = require('../middleware/multer.js');
 
 const router = express.Router();
 
 router.get("/produits", auth, ApiController.getAllProduct);
-router.post("/produits", auth, ApiController.addProduct);
+router.post("/produits", auth, upload.single('urlImg'), ApiController.addProduct);
 router.get("/produits/:id", auth, ApiController.getProduct);
 router.delete("/produits/:id", auth, ApiController.deleteProduct);
 router.patch("/produits/:id", auth, ApiController.updateProduct);
@@ -17,6 +18,7 @@ router.get("/categories", auth, ApiController.getAllCategories);
 router.post("/categories", auth, ApiController.addCategory);
 router.delete("/categories/:id", auth, ApiController.deleteCategory);
 
+router.post("/login", ApiController.login);
 router.get("/login/:login", ApiController.login);
 router.get("/accounts", auth, ApiController.getAllAccount);
 router.get("/accounts/:id", auth, ApiController.clientAccount);

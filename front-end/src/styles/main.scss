@@ -465,8 +465,7 @@ footer {
 
         box-sizing: border-box;
         
-        width: 18%;
-        min-width: 230px;
+        width: 400px;
         padding: 30px 25px;
 
         background-color: variables.$color-principal;
@@ -489,6 +488,7 @@ footer {
     }
 }
 
+//PAGE GESTION PRODUCT
 .main-gestion-product {
     .gestion-product-content {
         aside {
@@ -532,6 +532,107 @@ footer {
                 flex-wrap: wrap;
                 gap: 50px;
             }
+        }
+    }
+}
+
+//PAGE GESTION COMMAND
+.main-gestion-command {
+    .list-command {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 50px;
+
+        margin: 40px 0 80px;
+
+        article {
+            display: flex;
+            flex-direction: column;
+    
+            width: 250px;
+            height: 300px;
+            padding: 30px;
+            border-radius: 15px;
+    
+            background-color: variables.$color-light;
+            box-shadow: 5px 5px 15px variables.$color-shadow;
+    
+            transition: 0.8s;
+            
+            h3, p {
+                color: variables.$color-principal;
+            }
+        }
+    }
+}
+
+.gestion-form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        margin: auto;
+
+        width: 40%;
+        padding: 50px;
+        border-radius: 20px;
+
+        background-color: variables.$color-light;
+        box-shadow: 0px 10px 20px variables.$color-shadow;
+        
+        label {
+            margin-top: 15px;
+        }
+
+        input, select, textarea {
+            padding: 8px 0px 8px 8px;
+            border: 1px solid variables.$color-principal;
+            border-radius: 10px;
+        }
+
+        textarea {
+            resize: none;
+            height: 160px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .urlImg-button {
+            margin: 0;
+            padding: 8px 0px 8px 8px;
+            border: 1px solid variables.$color-principal;
+            border-radius: 10px;
+
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            display: block;
+            margin: 35px auto 0;
+
+            padding: 5px 20px;
+            border-radius: 30px;
+
+            color: variables.$color-light;
+            background-color: variables.$color-third;
+
+            transition: 0.8s;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            transform: scale(0.95);
+            background-color: variables.$color-third-variante;
         }
     }
 }

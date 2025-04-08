@@ -97,6 +97,15 @@ class Account {
         return account;
     }
 
+        
+    // static async login(mail, password) {
+    //     const encryptedPassword = MD5(password).toString();
+
+    //     const data = await Account.service.customQuery(
+
+    //     )
+    // }
+
     static async testLogin(login, password) {
         const data = await Account.service.login(login, password);
         if(data < 1) return null;

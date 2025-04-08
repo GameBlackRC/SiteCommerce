@@ -36,16 +36,16 @@ const GestionCommand = () => {
                 <h1>Gestion des commandes</h1>
 
                 <h2>Liste des commandes</h2>
-                <section>
+                <section className="list-command">
                     {commands.map((command) => (
                         <article key={command.id}>
                             <h3>{command.id}</h3>
                             <h3>{command.statut}</h3>
-                            {command.listProduct.map((product) => (
-                                <div key={product.name}>
-                                    <p>{product.name}</p>
-                                    <p>{product.price}</p>
-                                    <p>{product.quantity}</p>
+                            {command.listProduct.map((product, index) => (
+                                <div key={index}>
+                                    <p>{product.data.name}</p>
+                                    <p>{product.data.price}</p>
+                                    <p>Quantité : {product.quantity}</p>
                                 </div>
                             ))}
                         </article>

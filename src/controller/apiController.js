@@ -18,17 +18,44 @@ class ApiController {
         res.render("listeProduits", {title : "Site E-Commerce - Produits"});
     };
 
-    static login(req, res) {
-        if (req.body.name == "test" && req.body.mdp == "test") {
-            const token = jwt.sign({ user: 'test' }, 'ma super clé');
-            res.status(200).json({
-                token
-            })
-        }
-        else {
-            res.status(401).json({
-                err: "Utilisateur ou mot de passe incorrect"
-            })
+    // static login(req, res) {
+    //     if (req.body.name == "test" && req.body.mdp == "test") {
+    //         const token = jwt.sign({ user: 'test' }, 'ma super clé');
+    //         res.status(200).json({
+    //             token
+    //         })
+    //     }
+    //     else {
+    //         res.status(401).json({
+    //             err: "Utilisateur ou mot de passe incorrect"
+    //         })
+    //     }
+    // }
+
+    static async login(req, res) {
+        const {mail, password } = req.body;
+
+        try {
+            const account = await Account.testLogin(mail, password);
+
+            if(!account) {
+                return res.status(401).json({ error: "Login ou mot de passe incorrect."})
+            }
+
+            const token = jwt.sign(
+                {
+                    id: account.id,
+                    login: account.login,
+                    mail: account.mail
+                },
+                'ma super clé',
+                {expiresIn: "2h"}
+            );
+
+            return res.status(200).json({ token, user: account.json() });
+        } catch (error) {
+            console.error("Erreur dans login : ", error);
+            return res.status(500).json({ error: "Erreur serveur" });
         }
     }
 
@@ -125,7 +152,18 @@ class ApiController {
     }
 
     static addProduct(req, res) {
-        Product.add(req.body).then(product => {
+        const { name, category, price, description } = req.body;
+        const urlImg = `/assets/${req.file.filename}`;
+
+        const productData = {
+            name: name,
+            urlImg: urlImg,
+            idCategory: category,
+            price: price,
+            description: description
+        };
+
+        Product.add(productData).then(product => {
             res.status(200).json(product);
         })
     }

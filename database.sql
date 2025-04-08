@@ -46,9 +46,9 @@ CREATE TABLE ProductCommand (
 );
 
 INSERT INTO Account (login, mail, password) VALUES
-('user1', 'user1@example.com', 'hashed_password_1'),
-('user2', 'user2@example.com', 'hashed_password_2'),
-('user3', 'user3@example.com', 'hashed_password_3');
+('user1', 'user1@example.com', '7c6a180b36896a0a8c02787eeafb0e4c'),
+('user2', 'user2@example.com', '6cb75f652a9b52798eb6cf2201057c73'),
+('user3', 'user3@example.com', 'f379eaf3c831b04de153469d1bec345e');
 
 INSERT INTO Category (name) VALUES
 ('Électronique'),

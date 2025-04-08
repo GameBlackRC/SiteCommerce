@@ -32,7 +32,7 @@ const DetailsProduct = () => {
     }
 
     if (!product) {
-        return <div>Produit introuvable.</div>;
+        return <div>Produit introuvable.</div>
     }
 
     return (
@@ -41,7 +41,7 @@ const DetailsProduct = () => {
                 <h1>Détails du Produit</h1>
                 <section className="section-details-product">
                     <article>
-                        <img src={product.urlImg} alt={product.name} />
+                        <img src={`http://localhost:3000/${product.urlImg}`} alt={product.name} />
 
                         <aside>
                             <h2>{product.name}</h2>
