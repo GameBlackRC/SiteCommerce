@@ -67,9 +67,10 @@ class MysqlService {
     }
     
     async login(login, password) {
+        console.log(login, password);
         const [results, fields] = await connection.promise().query(
-            "SELECT * FROM `" + this.tableName + "` WHERE login=? AND password=?",
-            [login, MD5(password)]
+            "SELECT * FROM `" + this.tableName + "` WHERE mail=? AND password=?",
+            [login, MD5(password).toString()]
         );
         return results;
     }

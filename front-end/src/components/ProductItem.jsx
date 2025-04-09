@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 
 const ProductItem = ({ product }) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+    let button = <button className="button cta" onClick={() => addToPanier(product.id)}>Ajouter au panier</button>;
+    if (!user || !token) {
+        button = <button className="button ctaDisable">Ajouter au panier</button>;
+    }
     return (
         <>
             <Link to={`/produits/${product.id}`}>
@@ -13,7 +19,7 @@ const ProductItem = ({ product }) => {
                         </div>
                     </article>
 
-                    <button className="button cta" onClick={() => addToPanier(product.id)}>Ajouter au panier</button>
+                    {button}
                 </div>
             </Link>
         </>

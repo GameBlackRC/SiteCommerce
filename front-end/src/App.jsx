@@ -6,6 +6,7 @@ import Product from "./pages/Product";
 import Account from "./pages/Account";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import SignUp from "./pages/SignUp";
 import Admin from "./pages/Admin";
 import GestionCategory from "./pages/GestionCategory";
@@ -25,6 +26,7 @@ function App() {
         <Route path='/produits' element={<Product />} />
         <Route path='/produits/:id' element={<DetailsProduct />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/logout' element={<Logout />} />
         <Route path='sign-up' element={<SignUp />} />
         <Route path='/compte/:id' element={<Account />} />
         <Route path='/panier' element={<Cart />} />

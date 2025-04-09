@@ -18,20 +18,6 @@ class ApiController {
         res.render("listeProduits", {title : "Site E-Commerce - Produits"});
     };
 
-    // static login(req, res) {
-    //     if (req.body.name == "test" && req.body.mdp == "test") {
-    //         const token = jwt.sign({ user: 'test' }, 'ma super clé');
-    //         res.status(200).json({
-    //             token
-    //         })
-    //     }
-    //     else {
-    //         res.status(401).json({
-    //             err: "Utilisateur ou mot de passe incorrect"
-    //         })
-    //     }
-    // }
-
     static async login(req, res) {
         const {mail, password } = req.body;
 
@@ -225,8 +211,16 @@ class ApiController {
 
     static addAccount(req, res) {
         Account.add(req.body.login, req.body.password, req.body.mail).then(account => {
-            //account.creationAccount();
-            res.status(200).json({"sucess": "Ajout de compte réussi"});
+            const token = jwt.sign(
+                {
+                    id: account.id,
+                    login: req.body.login,
+                    mail: req.body.mail
+                },
+                'ma super clé',
+                {expiresIn: "2h"}
+            );
+            res.status(200).json({"sucess": "Ajout de compte réussi", "token": token, "user": account.json()});
         })
     }
 

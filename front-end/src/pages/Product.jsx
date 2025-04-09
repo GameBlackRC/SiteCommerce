@@ -42,6 +42,11 @@ const Product = () => {
         return <div>{error}</div>
     }
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+
+    const isLogin = !user || !token;
+
     return (
         <>
             <main className="main-product">

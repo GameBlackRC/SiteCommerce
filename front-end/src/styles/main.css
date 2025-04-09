@@ -130,6 +130,16 @@ footer p {
   background-color: #3c4bf0;
 }
 
+.ctaDisable {
+  color: #fbfbff;
+  background-color: #5e5e5e;
+}
+
+.ctaDisable:hover {
+  color: #fbfbff;
+  background-color: #5e5e5e;
+}
+
 .main-product {
   display: flex;
   flex-direction: column;
