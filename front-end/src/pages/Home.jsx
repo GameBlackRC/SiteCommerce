@@ -11,7 +11,7 @@ const Home = () => {
             </article>
 
             <aside>
-                <img src={`http://localhost:3000/assets/marketplace.png`} alt="marketplace" />
+                <img src={`/assets/marketplace.png`} alt="marketplace" />
                 <section>
                     <Link to="/panier" className="button">Voir son panier</Link>
                     <Link to="/produits" className="button">Voir les produits</Link>

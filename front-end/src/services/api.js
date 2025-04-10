@@ -199,3 +199,59 @@ export const isAdmin = async ({}) => {
         },
     });
 }
+
+export const addToCart = async (productId) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+
+    if (!user || !token) {
+        throw new Error("Utilisateur non connecté.");
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/cart/`+user.id, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({idProduct: productId, number: 1}),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur API: ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur lors de l'ajout au panier :", error);
+        throw error;
+    }
+};
+
+export const removeFromCart = async (commandID, productId) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        throw new Error("Utilisateur non connecté.");
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/commands/${commandID}/products/${productId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur API: ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur lors de la suppression du produit du panier :", error);
+        throw error;
+    }
+};

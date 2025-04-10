@@ -76,12 +76,14 @@ class MysqlService {
     }
     async getCart(id) {
         const [results, fields] = await connection.promise().query(
-            "SELECT c.id, pr.name, pr.urlImg, pr.idCategory, pr.description, pr.price, p.quantity FROM `ProductCommand` p JOIN `Command` c ON c.id = p.idCommand JOIN `Product` pr ON pr.id = p.idProduct WHERE c.idAccount=? AND c.statut = 'panier'",
+            "SELECT c.id commandID, pr.id, pr.name, pr.urlImg, pr.idCategory, pr.description, pr.price, p.quantity FROM `ProductCommand` p JOIN `Command` c ON c.id = p.idCommand JOIN `Product` pr ON pr.id = p.idProduct WHERE c.idAccount=? AND c.statut = 'panier'",
             [id]
         );
         let cart = [];
         results.forEach((result) => {
             cart.push({
+                commandID: result.commandID,
+                id: result.id,
                 name: result.name,
                 urlImg: result.urlImg,
                 description: result.description,

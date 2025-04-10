@@ -28,7 +28,7 @@ class Command {
 
     static async loadCart(account) {
         const data = await Command.service.getCart(account.id);
-        const command = new Command('panier');
+        const command = new Command(null, 'panier');
         data.forEach((product) => {
             command.listProduct.push({
                 data: new Produit(null, product.name, product.urlImg, product.description, product.price, product.category),
@@ -40,10 +40,10 @@ class Command {
 
     static async loadPanierById(idAccount) {
         const data = await Command.service.getCart(idAccount);
-        const command = new Command('panier');
+        const command = new Command(data[0].commandID, 'panier');
         data.forEach((product) => {
             command.listProduct.push({
-                data: new Produit(null, product.name, product.urlImg, product.category, product.description, product.price),
+                data: new Produit(product.id, product.name, product.urlImg, product.category, product.description, product.price),
                 quantity: product.quantity           
             })
         })
@@ -98,9 +98,9 @@ class Command {
 
     static async add(idUser) {
         const result = await Command.service.add({
-            idCompte: idUser,
+            idAccount: idUser,
         })
-        const command = new Command(result.insertId, "cart");
+        const command = new Command(result.insertId, "panier");
         return command;
     }
 

@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { fetchCategories, fetchProducts } from "../services/api";
 import ProductItem from "../components/ProductItem";
+import { useNavigate, Link } from "react-router-dom";
 
 const Product = () => {
     const [categories, setCategories] = useState([]);
@@ -29,6 +29,8 @@ const Product = () => {
 
         loadData();
     }, []);
+
+    const navigate = useNavigate();
 
     const filteredProducts = selectedCategory
         ? products.filter(product => product.category.id === parseInt(selectedCategory))

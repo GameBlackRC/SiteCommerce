@@ -251,6 +251,44 @@ class ApiController {
         console.log(req.body);
         res.status(200).json({"test":"t"});
     }
+
+    static addToCart(req, res) {
+        const { idProduct, number } = req.body;
+        const userId = req.params.userID;
+
+        Command.loadPanierById(userId).then(command => {
+            if (!command || command.listProduct.length === 0) {
+                // If no cart exists, create a new one
+                Command.add(userId).then(newCart => {
+                    newCart.addProduct(idProduct, number).then(result => {
+                        if (result == null) return res.status(400).json({ "err": "Erreur lors de l'ajout du produit" });
+                        else if (result['err'] != undefined) return res.status(400).json({ "err": result['err'] });
+                        res.status(200).json(result);
+                    });
+                });
+            } else {
+                // If cart exists, add product to it
+                const existingProduct = command.listProduct.find(product => product.data.id === idProduct);
+                if (existingProduct) {
+                    console.log("Produit existant dans le panier : ", existingProduct);
+                    command.editNumberProduct(idProduct, existingProduct.quantity + 1).then(result => {
+                        if (result == null) return res.status(400).json({ "err": "Erreur lors de la mise à jour de la quantité" });
+                        else if (result['err'] != undefined) return res.status(400).json({ "err": result['err'] });
+                        res.status(200).json(result);
+                    });
+                } else {
+                    command.addProduct(idProduct, number).then(result => {
+                        if (result == null) return res.status(400).json({ "err": "Erreur lors de l'ajout du produit" });
+                        else if (result['err'] != undefined) return res.status(400).json({ "err": result['err'] });
+                        res.status(200).json(result);
+                    });
+                }
+            }
+        }).catch(error => {
+            console.error("Erreur lors de l'ajout au panier : ", error);
+            res.status(500).json({ "err": "Erreur serveur" });
+        });
+    }
 };
 
 module.exports = ApiController;

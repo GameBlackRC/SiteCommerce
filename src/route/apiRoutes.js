@@ -26,6 +26,7 @@ router.post("/accounts", ApiController.addAccount);
 router.delete("/accounts/:id", auth, ApiController.removeAccount);
 router.patch("/accounts/:id", auth, ApiController.updateAccount);
 
+router.post("/cart/:userID", auth, ApiController.addToCart);
 router.get("/cart/:id", auth, ApiController.getCart);
 router.get("/commands", auth, ApiController.getAllCommand); //liste produit a check
 router.post("/commands/:userID", auth, ApiController.addCommand); //liste produit a check
