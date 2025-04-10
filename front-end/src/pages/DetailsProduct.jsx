@@ -41,9 +41,9 @@ const DetailsProduct = () => {
                 <h1>Détails du Produit</h1>
                 <section className="section-details-product">
                     <article>
-                        <img src={`http://localhost:3000/${product.urlImg}`} alt={product.name} />
+                        <img src={`${product.urlImg}`} alt={product.name} />
 
-                        <aside>
+                        <aside style={window.innerWidth < 768 ? { width: "100%" } : { width: "50%" }} className="aside-details-product">
                             <h2>{product.name}</h2>
 
                             <h3>Catégorie</h3>
