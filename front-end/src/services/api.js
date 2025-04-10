@@ -22,6 +22,28 @@ export const fetchProducts = async () => {
     }
 };
 
+export const fetchProductsInCart = async (userID) => {
+    console.log("TEST2")
+    try {
+        const response = await fetch(`${API_BASE_URL}/cart/`+userID, {
+            method: 'GET',
+            headers: {
+                Authorization : `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur API: ${response.statusText}`);
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération du panier : ", error);
+        throw error;
+    }
+};
+
 export const fetchProductById = async (id) => {
     try {
         const response = await fetch(`${API_BASE_URL}/produits/${id}`, {
@@ -167,4 +189,13 @@ export const createUser = async ({ login, mail, password }) => {
     }
 
     return await response.json();
+}
+
+export const isAdmin = async ({}) => {
+    const response = await fetch(`${API_BASE_URL}/checkAdmin/`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
 }

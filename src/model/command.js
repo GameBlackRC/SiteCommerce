@@ -13,12 +13,25 @@ class Command {
         this.statut = statut;
     }
 
+    json() {
+        return {
+            id: this.id,
+            statut: this.statut,
+            listProduct: this.listProduct.map((product) => {
+                return {
+                    data: product.data.json(),
+                    quantity: product.quantity
+                }
+            })
+        }
+    }
+
     static async loadCart(account) {
         const data = await Command.service.getCart(account.id);
         const command = new Command('panier');
         data.forEach((product) => {
             command.listProduct.push({
-                data: new Produit(product.name, product.urlImg, product.description, product.price, product.category),
+                data: new Produit(null, product.name, product.urlImg, product.description, product.price, product.category),
                 quantity: product.quantity           
             })
         })
@@ -30,7 +43,7 @@ class Command {
         const command = new Command('panier');
         data.forEach((product) => {
             command.listProduct.push({
-                data: new Produit(product.name, product.urlImg, product.description, product.price, product.category),
+                data: new Produit(null, product.name, product.urlImg, product.category, product.description, product.price),
                 quantity: product.quantity           
             })
         })

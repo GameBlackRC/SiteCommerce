@@ -52,6 +52,13 @@ class ApiController {
         })
     }
 
+    static getCart(req, res) {
+        const id = req.params.id
+        Command.loadPanierById(id).then(command => {
+            res.status(200).json(command.json())
+        })
+    }
+
     static addProductToCommand(req, res) {
         Command.getById(req.params.id).then(command => {
             command.addProduct(req.params.idProduct, req.body.number).then(result => {

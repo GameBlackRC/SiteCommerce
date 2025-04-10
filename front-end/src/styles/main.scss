@@ -150,6 +150,15 @@ footer {
     background-color: variables.$color-third-variante;
 }
 
+.ctaDisable {
+    color: variables.$color-light;
+    background-color: #5e5e5e;
+  }
+  
+  .ctaDisable:hover {
+    background-color: #5e5e5e;
+  }
+
 //PAGE PRODUCT / PRODUITS
 .main-product {
     display: flex;

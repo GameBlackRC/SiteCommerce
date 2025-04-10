@@ -82,7 +82,7 @@ class MysqlService {
         let cart = [];
         results.forEach((result) => {
             cart.push({
-                name: result.nom,
+                name: result.name,
                 urlImg: result.urlImg,
                 description: result.description,
                 price: result.price,

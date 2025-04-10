@@ -1,21 +1,22 @@
-const CartItem = () => {
+const CartItem = ({ product }) => {
+    const total = product.quantity * product.data.price;
     return (
         <>
             <article className="cart-item">
                 <div className="div-infos">
-                    <img src='../assets/image.jpg' alt='Produits' />
-                    <p>Nom</p>
-                    <p>10 €</p>
+                    <img src={product.data.urlImg} alt={product.data.name} />
+                    <p>{product.data.name}</p>
+                    <p>{product.data.price} €</p>
                 </div>
 
                 <div className="div-quantity">
                     <button className="button cta">-</button>
-                    <span>1</span>
+                    <span>{product.quantity}</span>
                     <button className="button cta">+</button>
                 </div>
 
                 <div className="div-total">
-                    <p>Total €</p>
+                    <p>Total : {total} €</p>
                 </div>
 
                 <div className="div-delete">

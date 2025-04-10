@@ -20,6 +20,17 @@ class Product {
         this.price = price;
     }
 
+    json() {
+        return {
+            id: this.id,
+            name: this.name,
+            urlImg: this.urlImg,
+            idCategory: this.idCategory,
+            description: this.description,
+            price: this.price
+        }
+    }
+
     static async getById(id) {
         const data = await Product.service.getById(id);
         const product = new Product(data.id, data.name, data.urlImg, data.idCategory, data.description, data.price);
