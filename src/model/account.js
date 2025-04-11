@@ -9,20 +9,23 @@ class Account {
     mail;
     password;
     commands = [];
-    static service = new MysqlService("Account", ['id', 'login', 'mail', 'password']);
+    admin;
+    static service = new MysqlService("Account", ['id', 'login', 'mail', 'password', 'admin']);
 
-    constructor(id, login, password, mail) {
+    constructor(id, login, password, mail, admin) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.mail = mail;
+        this.admin = admin;
     }
 
     json() {
         return {
             "id": this.id,
             "login": this.login,
-            "mail": this.mail
+            "mail": this.mail,
+            "admin": this.admin,
         }
     }
 
@@ -93,7 +96,7 @@ class Account {
             password: MD5(password).toString(),
             mail: mail
         })
-        const account = new Account(result.insertId, login, MD5(password).toString(), mail);
+        const account = new Account(result.insertId, login, MD5(password).toString(), mail, false);
         return account;
     }
 
@@ -109,7 +112,7 @@ class Account {
     static async testLogin(login, password) {
         const data = await Account.service.login(login, password);
         if(data < 1) return null;
-        else return new Account(data[0].id, data[0].login, data[0].password, data[0].adresseMail);
+        else return new Account(data[0].id, data[0].login, data[0].password, data[0].adresseMail, data[0].admin);
     }
 
     static async removeById(id) {
@@ -123,7 +126,7 @@ class Account {
 
     static async getById(id) {
         const data = await Account.service.getById(id);
-        const account = new Account(data.id, data.login, data.password, data.mail);
+        const account = new Account(data.id, data.login, data.password, data.mail, data[0].admin);
         await account.loadCart();
         console.log(data);
         return account;
@@ -131,7 +134,7 @@ class Account {
 
     static async getAll() {
         const data = await Account.service.getAll();
-        return data.map(item => new Account(item.id, item.login, item.password, item.adresseMail));
+        return data.map(item => new Account(item.id, item.login, item.password, item.adresseMail, item.admin));
     }
 
     async loadCart() {

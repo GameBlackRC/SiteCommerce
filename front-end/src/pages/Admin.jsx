@@ -1,6 +1,14 @@
 import { Link, Outlet } from "react-router-dom";
+import { isAdmin } from "../services/api";
 
 const Admin = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+    if (!user || !token || !user.admin) {
+        return (
+            window.location.href = "/"
+        );
+    }
     return(
         <>
             <main className="main-admin">
